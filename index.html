@@ -5,32 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projekt 1, CAS FEE2023</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
   </head>
   <body>
-    <div>
-      <div>
+    <div class="wrapper">
+      <div class="container">
         <h1>Projekt 1, CAS FEE2023</h1>
-        <div>
+        <button>toggle style</button>
+        <div class="inputBox">
           <label for="todoInput">Add a Todo</label>
           <input type="text" id="todoInput" placeholder="create a new Todo" />
           <button id="addTodo">Add</button>
         </div>
-        <button>toggle style</button>
-        <ul>
-          <li>
-            <div>
-              <input type="checkbox" id="statusCheckbox" />
-              <label for="statusCheckbox">Open</label>
-            </div>
+
+        <ul class="listBox">
+          liste
+          <li class="listEntry">
             <p>Flug buchen</p>
             <div>
               <span>importency</span>
             </div>
+            <button id="editTodo">Edit</button>
+            <button id="deleteTodo">Delete</button>
             <div>
-              <button id="editTodo">Edit</button>
-              <button id="deleteTodo">Delete</button>
+              <input type="checkbox" id="statusCheckbox" />
+              <label for="statusCheckbox"></label>
+            </div>
           </li>
         </ul>
       </div>
