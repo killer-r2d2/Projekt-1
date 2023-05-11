@@ -15,6 +15,11 @@
   --secondary-color: #eaebeb;
 }
 
+.dark {
+  --primary-color: #eaebeb;
+  --secondary-color: #06514e;
+}
+
 * {
   font-family: "Comic Neue", sans-serif;
 }
