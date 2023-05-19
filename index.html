@@ -17,21 +17,30 @@
           <button class="primaryButton" id="themeToggler">toggle style</button>
         </div>
         <ul class="filterBox">
-          <li><button class="primaryButton">By Name</button></li>
-          <li><button class="primaryButton">By Due Date</button></li>
-          <li><button class="primaryButton">By Creation Date</button></li>
-          <li><button class="primaryButton">By importency</button></li>
+          <li><button class="primaryButton filterButton">By Name</button></li>
+          <li>
+            <button class="primaryButton filterButton">By Due Date</button>
+          </li>
+          <li>
+            <button class="primaryButton filterButton">By Creation Date</button>
+          </li>
+          <li>
+            <button class="primaryButton filterButton">By importency</button>
+          </li>
         </ul>
         <ul class="listBox">
           <li class="listEntry">
-            <div>
-              <div>
+            <div class="statusAndDurationBox">
+              <div class="statusBox">
                 <input type="checkbox" id="statusCheckbox" />
                 <label for="statusCheckbox">Open</label>
               </div>
-              <p>in 2 days</p>
+              <p class="taskDuration">in 2 days</p>
             </div>
-            <p>Flug asdfafasdf asdfafasfasf asdfasf buchen</p>
+            <p class="task">
+              Flug asdfafasdf asdfafasfasf asdfasf asdfafasfasfaafafasdfasf
+              asdfafasdffafa buchen asdfafasdfafasfdaf asdfafasfasfafasfaf
+            </p>
             <div>
               <img
                 class="iconArrowTrendingUp"
@@ -39,8 +48,8 @@
                 alt="Arrow trending up"
               />
             </div>
-            <div><button id="editTodo" class="primaryButton">Edit</button></div>
             <div>
+              <button id="editTodo" class="primaryButton">Edit</button>
               <button id="deleteTodo" class="primaryButton">Delete</button>
             </div>
           </li>

@@ -57,17 +57,35 @@ ul {
 
 .filterBox {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
+@media (min-width: 600px) {
+  .filterBox {
+    flex-direction: row;
+    justify-content: space;
+  }
+}
+
+.filterButton {
+  margin-bottom: 0.5rem;
+}
+
 .listEntry {
   display: grid;
-  grid-template-columns: 1fr auto auto auto auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 1rem;
   border-bottom: 1px solid var(--primary-color);
   padding: 0.5rem 0;
+}
+
+@media (min-width: 600px) {
+  .listEntry {
+    grid-template-columns: auto 25rem auto auto auto;
+  }
 }
 
 .primaryButton {
@@ -89,4 +107,12 @@ ul {
 .iconArrowTrendingUp {
   height: 1rem;
   width: 1rem;
+}
+
+p {
+  margin: 0;
+}
+
+.statusAndDurationBox {
+  height: 100%;
 }
