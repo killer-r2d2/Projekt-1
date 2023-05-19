@@ -47,6 +47,8 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  border-bottom: 1px solid var(--primary-color);
+  padding-bottom: 1rem;
 }
 
 ul {
@@ -71,6 +73,12 @@ ul {
 
 .filterButton {
   margin-bottom: 0.5rem;
+}
+
+@media (min-width: 600px) {
+  .filterButton {
+    margin-bottom: 0;
+  }
 }
 
 .listEntry {
@@ -107,6 +115,7 @@ ul {
 .iconArrowTrendingUp {
   height: 1rem;
   width: 1rem;
+  fill: var(--primary-color);
 }
 
 p {
