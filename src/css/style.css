@@ -118,10 +118,25 @@ ul {
   fill: var(--primary-color);
 }
 
-p {
+p,
+h2 {
   margin: 0;
 }
 
 .statusAndDurationBox {
   height: 100%;
+}
+
+/* todoForm */
+
+.todoForm {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.todoLabelInput {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }

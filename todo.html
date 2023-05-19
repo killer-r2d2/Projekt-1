@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo</title>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <h1>My Todo!</h1>
+        <form class="todoForm">
+          <div class="todoLabelInput">
+            <label for="todoInput">What needs to be done?</label>
+            <input
+              type="text"
+              id="todoInput"
+              placeholder="What needs to be done?"
+            />
+          </div>
+          <div class="todoLabelInput">
+            <label for="descriptionInput">Description</label>
+            <textarea
+              id="descriptionInput"
+              placeholder="Description"
+            ></textarea>
+          </div>
+          <div class="todoLabelInput">
+            <label for="dueDateInput">Due Date</label>
+            <input type="date" id="dueDateInput" />
+          </div>
+          <div class="todoLabelInput">
+            <label for="importencyInput">Importency</label>
+            <select id="importencyInput">
+              <option value="1">1 - not important</option>
+              <option value="2">2 - important</option>
+              <option value="3">3 - very important</option>
+            </select>
+          </div>
+          <div>
+            <input type="checkbox" id="statusCheckbox" />
+            <label for="statusCheckbox">Open</label>
+          </div>
+          <div class="todoLabelInput">
+            <button class="primaryButton" id="saveTodo">Save</button>
+            <button class="primaryButton" id="cancelTodo">Cancel</button>
+            <button class="primaryButton" id="deleteTodo">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="src/js/main.js"></script>
+  </body>
+</html>
