@@ -16,15 +16,28 @@
           <button class="primaryButton">create new todo</button>
           <button class="primaryButton" id="themeToggler">toggle style</button>
         </div>
+        <ul class="filterBox">
+          <li><button class="primaryButton">By Name</button></li>
+          <li><button class="primaryButton">By Due Date</button></li>
+          <li><button class="primaryButton">By Creation Date</button></li>
+          <li><button class="primaryButton">By importency</button></li>
+        </ul>
         <ul class="listBox">
           <li class="listEntry">
             <div>
-              <input type="checkbox" id="statusCheckbox" />
-              <label for="statusCheckbox">in 2 days</label>
+              <div>
+                <input type="checkbox" id="statusCheckbox" />
+                <label for="statusCheckbox">Open</label>
+              </div>
+              <p>in 2 days</p>
             </div>
-            <p>Flug buchen</p>
+            <p>Flug asdfafasdf asdfafasfasf asdfasf buchen</p>
             <div>
-              <span>importency</span>
+              <img
+                class="iconArrowTrendingUp"
+                src="./src/icons/iconTrendingUp.svg"
+                alt="Arrow trending up"
+              />
             </div>
             <div><button id="editTodo" class="primaryButton">Edit</button></div>
             <div>

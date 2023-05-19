@@ -55,11 +55,19 @@ ul {
   margin: 0;
 }
 
+.filterBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .listEntry {
   display: grid;
-  grid-template-columns: 1fr 1fr auto auto auto;
+  grid-template-columns: 1fr auto auto auto auto;
   align-items: center;
   gap: 1rem;
+  border-bottom: 1px solid var(--primary-color);
+  padding: 0.5rem 0;
 }
 
 .primaryButton {
@@ -76,4 +84,9 @@ ul {
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   transition: 0.3s;
+}
+
+.iconArrowTrendingUp {
+  height: 1rem;
+  width: 1rem;
 }
