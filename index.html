@@ -13,7 +13,9 @@
       <div class="container">
         <h1 class="title">Projekt 1 | CAS FEE2023 | Todo</h1>
         <div class="toggleAndAddTodoButtons">
-          <button class="primaryButton">create new todo</button>
+          <a href="./todo.html" class="primaryButton" id="createTodoButton">
+            create new todo
+          </a>
           <button class="primaryButton" id="themeToggler">toggle style</button>
         </div>
         <ul class="filterBox">
@@ -28,37 +30,10 @@
             <button class="primaryButton filterButton">By importency</button>
           </li>
         </ul>
-        <ul class="listBox" id="todos">
-          <li class="listEntry">
-            <div class="statusAndDurationBox">
-              <div>
-                <input type="checkbox" id="statusCheckbox" />
-                <label for="statusCheckbox">Open</label>
-              </div>
-              <p>in 2 days</p>
-            </div>
-            <div>
-              <h2>Todo 1</h2>
-              <p>
-                Flug asdfafasdf asdfafasfasf asdfasf asdfafasfasfaafafasdfasf
-                asdfafasdffafa buchen asdfafasdfafasfdaf asdfafasfasfafasfaf
-              </p>
-            </div>
-            <div>
-              <img
-                class="iconArrowTrendingUp"
-                src="./src/icons/iconTrendingUp.svg"
-                alt="Arrow trending up"
-              />
-            </div>
-            <div>
-              <button id="editTodo" class="primaryButton">Edit</button>
-              <button id="deleteTodo" class="primaryButton">Delete</button>
-            </div>
-          </li>
-        </ul>
+        <ul class="listBox" id="todos"></ul>
       </div>
     </div>
     <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="src/js/todo.js"></script>
   </body>
 </html>

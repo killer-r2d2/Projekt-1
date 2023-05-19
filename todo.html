@@ -11,14 +11,16 @@
   <body>
     <div class="wrapper">
       <div class="container">
+        <a href="/index.html">home</a>
         <h1>My Todo!</h1>
-        <form class="todoForm">
+        <form class="todoForm" id="todoForm">
           <div class="todoLabelInput">
             <label for="todoInput">What needs to be done?</label>
             <input
               type="text"
               id="todoInput"
               placeholder="What needs to be done?"
+              required
             />
           </div>
           <div class="todoLabelInput">
@@ -30,11 +32,12 @@
           </div>
           <div class="todoLabelInput">
             <label for="dueDateInput">Due Date</label>
-            <input type="date" id="dueDateInput" />
+            <input type="date" id="dueDateInput" required />
           </div>
           <div class="todoLabelInput">
-            <label for="importencyInput">Importency</label>
-            <select id="importencyInput">
+            <label for="importanceInput">importance</label>
+            <select id="importanceInput">
+              <option value="" disabled selected>Select importance</option>
               <option value="1">1 - not important</option>
               <option value="2">2 - important</option>
               <option value="3">3 - very important</option>
@@ -45,13 +48,24 @@
             <label for="statusCheckbox">Open</label>
           </div>
           <div class="todoLabelInput">
-            <button class="primaryButton" id="saveTodo">Save</button>
-            <button class="primaryButton" id="cancelTodo">Cancel</button>
-            <button class="primaryButton" id="deleteTodo">Delete</button>
+            <button
+              class="primaryButton"
+              id="saveTodo"
+              type="submit
+            "
+            >
+              Save
+            </button>
+            <button class="primaryButton" id="cancelTodo" type="button">
+              Cancel
+            </button>
+            <button class="primaryButton" id="deleteTodo" type="button">
+              Delete
+            </button>
           </div>
         </form>
       </div>
     </div>
-    <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="src/js/todo.js"></script>
   </body>
 </html>

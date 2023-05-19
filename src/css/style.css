@@ -29,6 +29,11 @@ body {
   color: var(--primary-color);
 }
 
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
 .wrapper {
   margin-left: 2rem;
   margin-right: 2rem;
