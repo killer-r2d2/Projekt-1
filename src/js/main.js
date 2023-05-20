@@ -3,7 +3,7 @@
 import todosStore from "./todos-stores.js";
 
 // toggle theme
-const themeToggler = document.getElementById("themeToggler");
+const themeToggler = document.querySelector("#themeToggler");
 themeToggler.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
