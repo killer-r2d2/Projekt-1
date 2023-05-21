@@ -107,14 +107,14 @@ ul {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 1rem;
   border-bottom: 1px solid var(--primary-color);
   padding: 0.5rem 0;
+  gap: 1rem;
 }
 
 @media (min-width: 800px) {
   .listEntry {
-    grid-template-columns: auto 25rem auto auto auto;
+    grid-template-columns: auto 25rem 1fr 1fr;
   }
 }
 
