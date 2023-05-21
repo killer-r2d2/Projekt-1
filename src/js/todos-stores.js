@@ -9,38 +9,6 @@ let todos = localStorage.getItem("todos")
         status: false,
         todo: "This is a todo",
       },
-      {
-        id: 2,
-        description: "This is a description",
-        dueDate: "2021-10-10",
-        importance: "high",
-        status: false,
-        todo: "This is a todo",
-      },
-      {
-        id: 3,
-        description: "This is a description",
-        dueDate: "2021-10-10",
-        importance: "high",
-        status: false,
-        todo: "This is a todo",
-      },
-      {
-        id: 4,
-        description: "This is a description",
-        dueDate: "2021-10-10",
-        importance: "high",
-        status: false,
-        todo: "This is a todo",
-      },
-      {
-        id: 5,
-        description: "This is a description",
-        dueDate: "2021-10-10",
-        importance: "high",
-        status: false,
-        todo: "This is a todo",
-      },
     ];
 
 console.log(todos);
@@ -79,6 +47,28 @@ const createHtmlForTodo = (todo) => {
   return todoHtml;
 };
 
+// edit todo with editButton on index.html
+// and fill form with todo data from localStorage
+const editTodo = (id) => {
+  const todo = todos.find((todo) => todo.id === id);
+  localStorage.setItem("todo", JSON.stringify(todo));
+  window.location.href = "todo.html";
+};
+
+const prefillForm = () => {
+  const todo = JSON.parse(localStorage.getItem("todo"));
+  const todoInput = document.querySelector("#todoInput");
+  const descriptionInput = document.querySelector("#descriptionInput");
+  const dueDateInput = document.querySelector("#dueDateInput");
+  const importanceInput = document.querySelector("#importanceInput");
+  const statusCheckbox = document.querySelector("#statusCheckbox");
+  todoInput.value = todo.todo;
+  descriptionInput.value = todo.description;
+  dueDateInput.value = todo.dueDate;
+  importanceInput.value = todo.importance;
+  statusCheckbox.checked = todo.status;
+};
+
 // remove todo with deleteButton from localStorage and todos array
 const deleteTodo = (id) => {
   todos = todos.filter((todo) => todo.id !== id);
@@ -93,8 +83,14 @@ const collectFormData = () => {
   const dueDate = document.querySelector("#dueDateInput").value;
   const importance = document.querySelector("#importanceInput").value;
   const status = document.querySelector("#statusCheckbox").checked;
+
+  // Check if todo exists in localStorage to decide whether to create new id or use existing id
+  const id = localStorage.getItem("todo")
+    ? JSON.parse(localStorage.getItem("todo")).id
+    : Math.floor(Math.random() * 1000);
+
   const newTodo = {
-    id: Math.floor(Math.random() * 1000),
+    id,
     description,
     dueDate,
     importance,
@@ -106,8 +102,17 @@ const collectFormData = () => {
 const handleFormSubmit = (event) => {
   event.preventDefault();
   const newTodo = collectFormData();
-  todos.push(newTodo);
-  console.log(todos);
+
+  if (localStorage.getItem("todo")) {
+    // If todo exists in localStorage, it means we're editing existing todo
+    const index = todos.findIndex((todo) => todo.id === newTodo.id);
+    todos[index] = newTodo;
+    localStorage.removeItem("todo");
+  } else {
+    // Else, we're creating a new todo
+    todos.push(newTodo);
+  }
+
   // store todos in local storage
   localStorage.setItem("todos", JSON.stringify(todos));
   // redirect to index.html
@@ -117,9 +122,6 @@ const form = document.querySelector("#todoForm");
 if (form) {
   form.addEventListener("submit", handleFormSubmit);
 }
-
-// delete todo in index.html and todo.html
-// handle also localStorage
 
 // render todos
 const renderTodos = () => {
@@ -139,6 +141,16 @@ const renderTodos = () => {
     todoList.appendChild(df);
   }
 
+  // edit todo
+  const editButtons = document.querySelectorAll(".editButton");
+  editButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const id = parseInt(event.target.dataset.id.replace("editButton", ""));
+      console.log(id);
+      editTodo(id);
+    });
+  });
+
   // delete todo
   const deleteButtons = document.querySelectorAll(".deleteButton");
   deleteButtons.forEach((button) => {
@@ -148,5 +160,10 @@ const renderTodos = () => {
     });
   });
 };
+
+// Call prefillForm if we're on todo.html
+if (window.location.href.includes("todo.html")) {
+  prefillForm();
+}
 
 export default { todos, renderTodos };
