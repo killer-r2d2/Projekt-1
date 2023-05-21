@@ -1,15 +1,6 @@
 let todos = localStorage.getItem("todos")
   ? JSON.parse(localStorage.getItem("todos"))
-  : [
-      {
-        id: 1,
-        description: "This is a description",
-        dueDate: "2021-10-10",
-        importance: "high",
-        status: false,
-        todo: "This is a todo",
-      },
-    ];
+  : [];
 
 // create html for todo
 const createHtmlForTodo = (todo) => {
