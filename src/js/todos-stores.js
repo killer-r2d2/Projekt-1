@@ -7,6 +7,16 @@ const createHtmlForTodo = (todo) => {
   const checkBoxId = `statusCheckbox${todo.id}`;
   const editButtonId = `editButton${todo.id}`;
   const deleteButtonId = `deleteButton${todo.id}`;
+  let importanceIcons = "";
+  for (let i = 0; i < todo.importance; i++) {
+    importanceIcons += `
+      <img
+        class="iconArrowTrendingUp"
+        src="./src/icons/iconTrendingUp.svg"
+        alt="Arrow trending up"
+      />  
+    `;
+  }
   const todoHtml = `
         <div class="statusAndDurationBox">
           <div>
@@ -22,11 +32,7 @@ const createHtmlForTodo = (todo) => {
           </p>
         </div>
         <div>
-          <img
-            class="iconArrowTrendingUp"
-            src="./src/icons/iconTrendingUp.svg"
-            alt="Arrow trending up"
-          />
+          ${importanceIcons}
         </div>
         <div>
           <button data-id="${editButtonId}" class="primaryButton editButton">Edit</button>
