@@ -49,11 +49,20 @@ a {
 }
 
 .toggleAndAddTodoButtons {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
   border-bottom: 1px solid var(--primary-color);
   padding-bottom: 1rem;
+}
+
+@media (min-width: 700px) {
+  .toggleAndAddTodoButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
 }
 
 ul {
@@ -63,24 +72,27 @@ ul {
 }
 
 .filterBox {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .filterBox {
-    flex-direction: row;
-    justify-content: space;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
   }
 }
 
 .filterButton {
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .filterButton {
     margin-bottom: 0;
   }
@@ -95,7 +107,7 @@ ul {
   padding: 0.5rem 0;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .listEntry {
     grid-template-columns: auto 25rem auto auto auto;
   }
@@ -126,6 +138,10 @@ ul {
 p,
 h2 {
   margin: 0;
+}
+
+a {
+  text-align: center;
 }
 
 .statusAndDurationBox {
