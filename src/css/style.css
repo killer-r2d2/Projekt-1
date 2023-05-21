@@ -87,6 +87,11 @@ ul {
   }
 }
 
+.HomeAndToggler {
+  display: flex;
+  justify-content: space-between;
+}
+
 .filterButton {
   margin-bottom: 0.5rem;
   width: 100%;
@@ -107,7 +112,7 @@ ul {
   padding: 0.5rem 0;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 800px) {
   .listEntry {
     grid-template-columns: auto 25rem auto auto auto;
   }
