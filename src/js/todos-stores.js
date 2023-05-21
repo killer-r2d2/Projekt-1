@@ -46,11 +46,14 @@ let todos = localStorage.getItem("todos")
 console.log(todos);
 
 const createHtmlForTodo = (todo) => {
+  const checkBoxId = `statusCheckbox${todo.id}`;
+  const editButtonId = `editButton${todo.id}`;
+  const deleteButtonId = `deleteButton${todo.id}`;
   const todoHtml = `
         <div class="statusAndDurationBox">
           <div>
-            <input type="checkbox" id="statusCheckbox" />
-            <label for="statusCheckbox">${todo.status ? "Done" : "Open"}</label>
+            <input type="checkbox" id="${checkBoxId}" />
+            <label for="${checkBoxId}">${todo.status ? "Done" : "Open"}</label>
           </div>
           <p>${todo.dueDate}</p>
         </div>
@@ -68,8 +71,8 @@ const createHtmlForTodo = (todo) => {
           />
         </div>
         <div>
-          <button id="editTodo" class="primaryButton">Edit</button>
-          <button id="deleteTodo" class="primaryButton">Delete</button>
+          <button id="${editButtonId}" class="primaryButton">Edit</button>
+          <button id="${deleteButtonId}" class="primaryButton">Delete</button>
         </div>
     `;
   return todoHtml;
@@ -104,7 +107,6 @@ const handleFormSubmit = (event) => {
   localStorage.setItem("todos", JSON.stringify(todos));
   // redirect to index.html
   window.location.href = "index.html";
-  renderTodos();
 };
 
 const form = document.querySelector("#todoForm");
