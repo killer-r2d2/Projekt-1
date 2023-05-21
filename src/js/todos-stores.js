@@ -55,6 +55,7 @@ const editTodo = (id) => {
 
 const prefillForm = () => {
   const todo = JSON.parse(localStorage.getItem("todo"));
+  if (!todo) return;
   const todoInput = document.querySelector("#todoInput");
   const descriptionInput = document.querySelector("#descriptionInput");
   const dueDateInput = document.querySelector("#dueDateInput");
