@@ -11,8 +11,6 @@ let todos = localStorage.getItem("todos")
       },
     ];
 
-console.log(todos);
-
 // create html for todo
 const createHtmlForTodo = (todo) => {
   const checkBoxId = `statusCheckbox${todo.id}`;
