@@ -45,6 +45,7 @@ let todos = localStorage.getItem("todos")
 
 console.log(todos);
 
+// create html for todo
 const createHtmlForTodo = (todo) => {
   const checkBoxId = `statusCheckbox${todo.id}`;
   const editButtonId = `editButton${todo.id}`;
@@ -71,16 +72,21 @@ const createHtmlForTodo = (todo) => {
           />
         </div>
         <div>
-          <button id="${editButtonId}" class="primaryButton">Edit</button>
-          <button id="${deleteButtonId}" class="primaryButton">Delete</button>
+          <button data-id="${editButtonId}" class="primaryButton editButton">Edit</button>
+          <button data-id="${deleteButtonId}" class="primaryButton deleteButton">Delete</button>
         </div>
     `;
   return todoHtml;
 };
 
-// create new todo in todo.html
-// save todo to todos array in todos-stores.js
-// render todos in index.html
+// remove todo with deleteButton from localStorage and todos array
+const deleteTodo = (id) => {
+  todos = todos.filter((todo) => todo.id !== id);
+  localStorage.setItem("todos", JSON.stringify(todos));
+  window.location.href = "index.html";
+};
+
+// create new todo
 const collectFormData = () => {
   const todo = document.querySelector("#todoInput").value;
   const description = document.querySelector("#descriptionInput").value;
@@ -97,7 +103,6 @@ const collectFormData = () => {
   };
   return newTodo;
 };
-
 const handleFormSubmit = (event) => {
   event.preventDefault();
   const newTodo = collectFormData();
@@ -108,12 +113,15 @@ const handleFormSubmit = (event) => {
   // redirect to index.html
   window.location.href = "index.html";
 };
-
 const form = document.querySelector("#todoForm");
 if (form) {
   form.addEventListener("submit", handleFormSubmit);
 }
 
+// delete todo in index.html and todo.html
+// handle also localStorage
+
+// render todos
 const renderTodos = () => {
   const todoList = document.querySelector("#todoList");
   if (todoList) {
@@ -130,6 +138,15 @@ const renderTodos = () => {
     });
     todoList.appendChild(df);
   }
+
+  // delete todo
+  const deleteButtons = document.querySelectorAll(".deleteButton");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const id = parseInt(event.target.dataset.id.replace("deleteButton", ""));
+      deleteTodo(id);
+    });
+  });
 };
 
 export default { todos, renderTodos };
