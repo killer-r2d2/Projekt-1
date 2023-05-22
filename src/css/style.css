@@ -42,6 +42,13 @@ a {
   height: 100vh;
 }
 
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .title {
   margin-bottom: 2rem;
   font-weight: bold;
