@@ -1,6 +1,4 @@
-let todos = localStorage.getItem("todos")
-  ? JSON.parse(localStorage.getItem("todos"))
-  : [];
+import todoservice from "./todo-service.js";
 
 // create html for todo
 const createHtmlForTodo = (todo) => {
@@ -42,34 +40,23 @@ const createHtmlForTodo = (todo) => {
   return todoHtml;
 };
 
-// edit todo with editButton on index.html
-// and fill form with todo data from localStorage
-const editTodo = (id) => {
-  const todo = todos.find((todo) => todo.id === id);
-  localStorage.setItem("todo", JSON.stringify(todo));
-  window.location.href = "todo.html";
-};
-
 const prefillForm = () => {
-  const todo = JSON.parse(localStorage.getItem("todo"));
-  if (!todo) return;
+  const todoItem = localStorage.getItem("todo");
+  if (todoItem === null) return;
+
+  const todo = JSON.parse(todoItem);
+
   const todoInput = document.querySelector("#todoInput");
   const descriptionInput = document.querySelector("#descriptionInput");
   const dueDateInput = document.querySelector("#dueDateInput");
   const importanceInput = document.querySelector("#importanceInput");
   const statusCheckbox = document.querySelector("#statusCheckbox");
+
   todoInput.value = todo.todo;
   descriptionInput.value = todo.description;
   dueDateInput.value = todo.dueDate;
   importanceInput.value = todo.importance;
   statusCheckbox.checked = todo.status;
-};
-
-// remove todo with deleteButton from localStorage and todos array
-const deleteTodo = (id) => {
-  todos = todos.filter((todo) => todo.id !== id);
-  localStorage.setItem("todos", JSON.stringify(todos));
-  window.location.href = "index.html";
 };
 
 // create new todo
@@ -95,14 +82,19 @@ const collectFormData = () => {
   };
   return newTodo;
 };
+// handleFormSubmit
 const handleFormSubmit = (event) => {
   event.preventDefault();
   const newTodo = collectFormData();
 
+  let todos = todoservice.getTodos();
+
   if (localStorage.getItem("todo")) {
     // If todo exists in localStorage, it means we're editing existing todo
     const index = todos.findIndex((todo) => todo.id === newTodo.id);
-    todos[index] = newTodo;
+    if (index !== -1) {
+      todos[index] = newTodo; // Replace the old todo with the updated one
+    }
     localStorage.removeItem("todo");
   } else {
     // Else, we're creating a new todo
@@ -121,6 +113,7 @@ if (form) {
 
 // render todos
 const renderTodos = () => {
+  let todos = todoservice.getTodos();
   const todoList = document.querySelector("#todoList");
   if (todoList) {
     // If todos are stored in localStorage, use them
@@ -137,13 +130,13 @@ const renderTodos = () => {
     todoList.appendChild(df);
   }
 
-  // edit todo
+  // update todo
   const editButtons = document.querySelectorAll(".editButton");
   editButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const id = parseInt(event.target.dataset.id.replace("editButton", ""));
       console.log(id);
-      editTodo(id);
+      todoservice.updateTodo(id);
     });
   });
 
@@ -152,7 +145,7 @@ const renderTodos = () => {
   deleteButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const id = parseInt(event.target.dataset.id.replace("deleteButton", ""));
-      deleteTodo(id);
+      todoservice.deleteTodo(id);
     });
   });
 };
@@ -162,4 +155,4 @@ if (window.location.href.includes("todo.html")) {
   prefillForm();
 }
 
-export default { todos, renderTodos };
+export default { renderTodos };
