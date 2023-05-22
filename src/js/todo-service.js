@@ -1,3 +1,5 @@
+import todo from "./todo.js";
+
 // getTodos
 const getTodos = () => {
   const todos = localStorage.getItem("todos");
@@ -18,6 +20,7 @@ const updateTodo = (id) => {
   if (todo) {
     localStorage.setItem("todo", JSON.stringify(todo));
     window.location.href = "todo.html";
+    todo.preefillForm();
   } else {
     console.error(`Todo with id ${id} not found`);
   }

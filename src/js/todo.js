@@ -148,11 +148,25 @@ const renderTodos = () => {
       todoservice.deleteTodo(id);
     });
   });
+
+  // update todo status
+  const statusCheckboxes = document.querySelectorAll(".statusCheckbox");
+  statusCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", (event) => {
+      const id = parseInt(
+        event.target.dataset.id.replace("statusCheckbox", "")
+      );
+      todoservice.updateTodoStatus(id);
+    });
+  });
 };
 
-// Call prefillForm if we're on todo.html
-if (window.location.href.includes("todo.html")) {
+// Call prefillForm if we're on todo.html and we are updating a todo, not creating a new one
+if (
+  window.location.href.includes("todo.html") &&
+  localStorage.getItem("todo")
+) {
   prefillForm();
 }
 
-export default { renderTodos };
+export default { renderTodos, prefillForm };
