@@ -1,30 +1,33 @@
 import { todoStorage } from "../storage/todo-storage.js";
 
-// createTodo
-const createTodo = (todo) => {
-  todoStorage.create(todo);
-  window.location.href = "index.html";
-};
+console.log(todoStorage);
 
-// readTodos
-const readTodos = () => {
-  return todoStorage.read();
-};
-
-// updateTodo
-const updateTodo = (id) => {
-  const todo = todoStorage.read(id);
-  if (todo) {
-    todoStorage.update(todo);
-    window.location.href = "todo.html";
-    todo.preefillForm();
-  } else {
-    console.error(`Todo with id ${id} not found`);
+export class TodoService {
+  constructor() {
+    this.todoStorage = todoStorage;
   }
-};
 
-// deleteTodo
-const deleteTodo = (id) => {
-  todoStorage.delete(id);
-  window.location.href = "index.html";
-};
+  getAllTodos() {
+    return this.todoStorage.todos;
+  }
+  getTodoById(id) {
+    return this.todoStorage.todos.find((todo) => todo.id === id);
+  }
+  createTodo(todo) {
+    this.todoStorage.todos.push(todo);
+  }
+  deleteTodoById(id) {
+    const todoIndex = this.todoStorage.todos.findIndex(
+      (todo) => todo.id === id
+    );
+    this.todoStorage.todos.splice(todoIndex, 1);
+  }
+  updateTodoById(id, updatedTodo) {
+    const todoIndex = this.todoStorage.todos.findIndex(
+      (todo) => todo.id === id
+    );
+    this.todoStorage.todos[todoIndex] = updatedTodo;
+  }
+}
+
+export const todoService = new TodoService();

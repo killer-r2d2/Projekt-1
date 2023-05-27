@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projekt 1, CAS FEE2023</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+      defer
+    ></script>
+
     <link rel="stylesheet" href="src/css/style.css" />
     <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
   </head>
@@ -30,7 +35,37 @@
             <button class="primaryButton filterButton">By importency</button>
           </li>
         </ul>
-        <ul class="listBox" id="todoList"></ul>
+        <ul class="listBox" id="todoList">
+          <script id="todo-list-template" type="text/x-handlebars-template">
+            <li class="listItem">
+              <div class="listItem__content">
+                <div class="listItem__content__title">
+                  <h2>{{title}}</h2>
+                </div>
+                <div class="listItem__content__description">
+                  <p>{{description}}</p>
+                </div>
+                <div class="listItem__content__dueDate">
+                  <p>{{dueDate}}</p>
+                </div>
+                <div class="listItem__content__importency">
+                  <p>{{importency}}</p>
+                </div>
+                <div class="listItem__content__creationDate">
+                  <p>{{creationDate}}</p>
+                </div>
+              </div>
+              <div class="listItem__buttons">
+                <button class="primaryButton listItem__buttons__editButton">
+                  edit
+                </button>
+                <button class="primaryButton listItem__buttons__deleteButton">
+                  delete
+                </button>
+              </div>
+            </li>
+          </script>
+        </ul>
       </div>
     </div>
     <script type="module" src="src/js/app.js"></script>
