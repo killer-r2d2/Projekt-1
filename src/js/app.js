@@ -5,5 +5,6 @@ import { themeToggler } from "./controllers/theme-controller.js";
 themeToggler("#themeToggler");
 
 window.addEventListener("DOMContentLoaded", () => {
-  todoController.loadTodos();
+  const todoList = document.querySelector("#todoList");
+  todoController.loadTodos(todoList);
 });

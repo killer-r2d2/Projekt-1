@@ -14,7 +14,7 @@ export class TodoService {
     return this.todoStorage.todos.find((todo) => todo.id === id);
   }
   createTodo(todo) {
-    this.todoStorage.todos.push(todo);
+    this.todoStorage.addTodo(todo);
   }
   deleteTodoById(id) {
     const todoIndex = this.todoStorage.todos.findIndex(
