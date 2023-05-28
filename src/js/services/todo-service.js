@@ -17,10 +17,7 @@ export class TodoService {
     this.todoStorage.addTodo(todo);
   }
   deleteTodoById(id) {
-    const todoIndex = this.todoStorage.todos.findIndex(
-      (todo) => todo.id === id
-    );
-    this.todoStorage.todos.splice(todoIndex, 1);
+    this.todoStorage.deleteTodoById(id);
   }
   updateTodoById(id, updatedTodo) {
     const todoIndex = this.todoStorage.todos.findIndex(

@@ -31,12 +31,25 @@ export class TodoController {
     }
     if (this.todoList) {
       this.todoList.innerHTML = todoHTML;
+
+      const deleteButtons = this.todoList.querySelectorAll(
+        ".listItem__buttons__deleteButton"
+      );
+      console.log("deleteButtons: ", deleteButtons);
+      deleteButtons.forEach((deleteButton) => {
+        deleteButton.addEventListener("click", (event) => {
+          console.log("Delete button clicked");
+          const todoId = event.target.dataset.id;
+          this.deleteTodoById(todoId);
+        });
+      });
     }
   }
 
   addTodo(todo) {
+    const randomId = Math.floor(Math.random() * 1000000);
     this.todoService.createTodo({
-      id: Date.now(),
+      id: randomId,
       ...todo,
     });
     this.loadTodos();
@@ -72,8 +85,9 @@ export class TodoController {
     };
 
     // Add the new todo item.
+    const randomId = Math.floor(Math.random() * 1000000);
     this.addTodo({
-      id: Date.now(),
+      id: randomId,
       ...todo,
     });
 
