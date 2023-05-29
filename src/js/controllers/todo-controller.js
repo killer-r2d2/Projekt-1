@@ -18,6 +18,29 @@ export class TodoController {
         );
       }
     });
+
+    window.addEventListener("load", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const todoId = urlParams.get("id");
+      if (todoId) {
+        this.loadTodo(todoId);
+      }
+    });
+  }
+
+  loadTodo(todoId) {
+    const todo = this.todoService.getTodoById(todoId);
+    if (todo) {
+      const todoInput = document.querySelector("#todoInput");
+      const descriptionInput = document.querySelector("#descriptionInput");
+      const dueDateInput = document.querySelector("#dueDateInput");
+      const importanceInput = document.querySelector("#importanceInput");
+
+      todoInput.value = todo.title;
+      descriptionInput.value = todo.description;
+      dueDateInput.value = todo.dueDate;
+      importanceInput.value = todo.importance;
+    }
   }
 
   loadTodos() {
@@ -35,15 +58,27 @@ export class TodoController {
       const deleteButtons = this.todoList.querySelectorAll(
         ".listItem__buttons__deleteButton"
       );
-      console.log("deleteButtons: ", deleteButtons);
       deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener("click", (event) => {
-          console.log("Delete button clicked");
           const todoId = event.target.dataset.id;
           this.deleteTodoById(todoId);
         });
       });
+
+      const editButtons = this.todoList.querySelectorAll(
+        ".listItem__buttons__editButton"
+      );
+      editButtons.forEach((editButton) => {
+        editButton.addEventListener("click", (event) => {
+          const todoId = event.target.dataset.id;
+          this.navigateToEditTodoPage(todoId);
+        });
+      });
     }
+  }
+
+  navigateToEditTodoPage(id) {
+    window.location.href = `/todo.html?id=${id}`;
   }
 
   addTodo(todo) {
@@ -74,7 +109,11 @@ export class TodoController {
     const dueDateInput = document.querySelector("#dueDateInput");
     const importanceInput = document.querySelector("#importanceInput");
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const todoId = urlParams.get("id");
+
     const todo = {
+      id: todoId ? parseInt(todoId) : Math.floor(Math.random() * 1000000),
       title: todoInput.value,
       description: descriptionInput.value,
       dueDate: dueDateInput.value,
@@ -84,12 +123,11 @@ export class TodoController {
       creationDate: new Date(),
     };
 
-    // Add the new todo item.
-    const randomId = Math.floor(Math.random() * 1000000);
-    this.addTodo({
-      id: randomId,
-      ...todo,
-    });
+    if (todoId) {
+      this.updateTodoById(todoId, todo);
+    } else {
+      this.addTodo(todo);
+    }
 
     // Reset the form.
     this.todoForm.reset();

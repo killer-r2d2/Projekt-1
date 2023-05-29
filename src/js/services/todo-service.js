@@ -21,9 +21,12 @@ export class TodoService {
   }
   updateTodoById(id, updatedTodo) {
     const todoIndex = this.todoStorage.todos.findIndex(
-      (todo) => todo.id === id
+      (todo) => todo.id === parseInt(id)
     );
-    this.todoStorage.todos[todoIndex] = updatedTodo;
+    if (todoIndex !== -1) {
+      this.todoStorage.todos[todoIndex] = updatedTodo;
+      this.todoStorage.saveTodos();
+    }
   }
 }
 
