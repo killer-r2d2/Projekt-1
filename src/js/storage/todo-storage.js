@@ -9,7 +9,7 @@ export class TodoStorage {
           id: 1, // unique id
           title: "Learn JavaScript", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
-          dueDate: new Date().toISOString().split("T")[0], // todo due date
+          dueDate: "2023-03-25", // todo due date
           importance: 1, // todo importance
           completed: false, // todo status
           createdAt: new Date().toISOString(), // todo creation date

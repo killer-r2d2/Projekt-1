@@ -34,19 +34,79 @@ export class TodoController {
     sortByNameButton.addEventListener("click", () => {
       this.sortTodosByTitle();
     });
+
+    // Add event listener to "By Due Date" button
+    const sortByDueDateButton = document.querySelector(
+      'button[data-sort-by="dueDate"]'
+    );
+    sortByDueDateButton.addEventListener("click", () => {
+      console.log("sortByDueDateButton");
+      this.sortTodosByDueDate();
+    });
+
+    // Add event listener to "By creationDate" button
+    const sortByCreationDateButton = document.querySelector(
+      'button[data-sort-by="creationDate"]'
+    );
+    sortByCreationDateButton.addEventListener("click", () => {
+      console.log("sortByCreationDateButton");
+      this.sortTodosByCreationDate();
+    });
+
+    // Add event listener to "By importance" button
+    const sortByImportanceButton = document.querySelector(
+      'button[data-sort-by="importance"]'
+    );
+    sortByImportanceButton.addEventListener("click", () => {
+      console.log("sortByImportanceButton");
+      this.sortTodosByImportance();
+    });
+
+    // Add event listener to "By completed" button
+    const sortByCompletedButton = document.querySelector(
+      'button[data-sort-by="completed"]'
+    );
+    sortByCompletedButton.addEventListener("click", () => {
+      this.sortTodosByCompleted();
+    });
   }
 
-  sortTodosByTitle() {
+  sortTodosByCriteria(criteria) {
     const sortedTodos = this.todos.slice().sort((a, b) => {
-      if (this.sortByTitleAsc) {
-        return a.title.localeCompare(b.title);
+      const valueA = a[criteria];
+      const valueB = b[criteria];
+
+      if (valueA < valueB) {
+        return this.sortAsc ? -1 : 1;
+      } else if (valueA > valueB) {
+        return this.sortAsc ? 1 : -1;
       } else {
-        return b.title.localeCompare(a.title);
+        return 0;
       }
     });
     this.todoService.updateAllTodos(sortedTodos);
-    this.sortByTitleAsc = !this.sortByTitleAsc;
+    this.sortAsc = !this.sortAsc;
     this.loadTodos();
+  }
+
+  sortTodosByTitle() {
+    this.sortTodosByCriteria("title");
+  }
+
+  sortTodosByDueDate() {
+    this.sortTodosByCriteria("dueDate");
+  }
+
+  sortTodosByCreationDate() {
+    this.sortTodosByCriteria("createdAt");
+  }
+
+  sortTodosByImportance() {
+    this.sortTodosByCriteria("importance");
+  }
+
+  sortTodosByCompleted() {
+    this.sortTodosByCriteria("completed");
   }
 
   loadTodo(todoId) {
