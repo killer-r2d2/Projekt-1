@@ -28,6 +28,10 @@ export class TodoService {
       this.todoStorage.saveTodos();
     }
   }
+  updateAllTodos(updatedTodos) {
+    this.todoStorage.todos = updatedTodos;
+    this.todoStorage.saveTodos();
+  }
 }
 
 export const todoService = new TodoService();

@@ -26,6 +26,27 @@ export class TodoController {
         this.loadTodo(todoId);
       }
     });
+
+    // Add event listener to "By Name" button
+    const sortByNameButton = document.querySelector(
+      'button[data-sort-by="name"]'
+    );
+    sortByNameButton.addEventListener("click", () => {
+      this.sortTodosByTitle();
+    });
+  }
+
+  sortTodosByTitle() {
+    const sortedTodos = this.todos.slice().sort((a, b) => {
+      if (this.sortByTitleAsc) {
+        return a.title.localeCompare(b.title);
+      } else {
+        return b.title.localeCompare(a.title);
+      }
+    });
+    this.todoService.updateAllTodos(sortedTodos);
+    this.sortByTitleAsc = !this.sortByTitleAsc;
+    this.loadTodos();
   }
 
   loadTodo(todoId) {
