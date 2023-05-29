@@ -21,15 +21,36 @@
           <button class="primaryButton" id="themeToggler">toggle style</button>
         </div>
         <ul class="filterBox">
-          <li><button class="primaryButton filterButton">By Name</button></li>
           <li>
-            <button class="primaryButton filterButton">By Due Date</button>
+            <button class="primaryButton filterButton" data-sort-by="name">
+              By Name
+            </button>
           </li>
           <li>
-            <button class="primaryButton filterButton">By Creation Date</button>
+            <button class="primaryButton filterButton" data-sort-by="dueDate">
+              By Due Date
+            </button>
           </li>
           <li>
-            <button class="primaryButton filterButton">By importency</button>
+            <button
+              class="primaryButton filterButton"
+              data-sort-by="creationDate"
+            >
+              By Creation Date
+            </button>
+          </li>
+          <li>
+            <button
+              class="primaryButton filterButton"
+              data-sort-by="importance"
+            >
+              By Importance
+            </button>
+          </li>
+          <li>
+            <button class="primaryButton filterButton" data-sort-by="completed">
+              By Completed
+            </button>
           </li>
         </ul>
         <ul class="listBox" id="todoList">
@@ -45,10 +66,13 @@
                 <div class="listItem__content__dueDate">
                   dueDate:<p>{{dueDate}}</p>
                 </div>
-                <div class="listItem__content__importency">
-                  <p>{{importency}}</p>
+                <div class="listItem__content__importance">
+                  <p>importance: {{importance}}</p>
                 </div>
-
+                <div>
+                  <input type="checkbox" name="completedCheckbox" id="{{id}}" {{#if completed}} checked {{/if}}>
+                  <label for="{{id}}">completed</label>
+                </div>
               </div>
               <div class="listItem__buttons">
                 <button

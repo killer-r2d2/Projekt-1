@@ -74,6 +74,21 @@ export class TodoController {
           this.navigateToEditTodoPage(todoId);
         });
       });
+
+      const checkboxes = this.todoList.querySelectorAll(
+        'input[name="completedCheckbox"]'
+      );
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+          const todoId = Number(event.target.id);
+          const todo = this.todoService.getTodoById(todoId);
+          if (todo) {
+            // Toggle the completed status of the todo
+            todo.completed = !todo.completed;
+            this.updateTodoById(todoId, todo);
+          }
+        });
+      });
     }
   }
 

@@ -80,7 +80,7 @@ ul {
 
 .filterBox {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -89,7 +89,7 @@ ul {
   .filterBox {
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 1rem;
   }
 }
