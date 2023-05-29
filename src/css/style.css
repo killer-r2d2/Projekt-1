@@ -35,18 +35,15 @@ a {
 }
 
 .wrapper {
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin: 6rem 2rem 6rem 2rem;
+
   display: grid;
   place-items: center;
-  height: 100vh;
 }
 
 .container {
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 1rem;
 }
 
 .title {
