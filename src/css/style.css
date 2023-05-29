@@ -110,9 +110,10 @@ ul {
   }
 }
 
-.listEntry {
+.listItem {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
   align-items: center;
   border-bottom: 1px solid var(--primary-color);
   padding: 0.5rem 0;
@@ -120,8 +121,9 @@ ul {
 }
 
 @media (min-width: 800px) {
-  .listEntry {
-    grid-template-columns: auto 25rem 1fr 1fr;
+  .listItem {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
   }
 }
 
