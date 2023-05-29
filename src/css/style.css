@@ -120,6 +120,10 @@ ul {
   gap: 1rem;
 }
 
+.listItem.completed {
+  opacity: 0.5;
+}
+
 @media (min-width: 800px) {
   .listItem {
     grid-template-columns: 1fr auto;

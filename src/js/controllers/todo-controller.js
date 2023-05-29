@@ -170,6 +170,19 @@ export class TodoController {
           }
         });
       });
+
+      // if todo is completed, add class to the list item
+      const listItems = this.todoList.querySelectorAll(".listItem");
+      listItems.forEach((listItem) => {
+        const checkbox = listItem.querySelector(
+          'input[name="completedCheckbox"]'
+        );
+        if (checkbox.checked) {
+          listItem.classList.add("completed");
+        } else {
+          listItem.classList.remove("completed");
+        }
+      });
     }
   }
 
