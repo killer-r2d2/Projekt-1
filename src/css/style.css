@@ -165,14 +165,22 @@ a {
 
 /* todoForm */
 
-.todoForm {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 1rem;
+.todoDialog {
+  border: none;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .todoLabelInput {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+.dialogMenu {
+  padding-left: 0;
 }

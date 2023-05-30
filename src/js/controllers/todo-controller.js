@@ -11,14 +11,15 @@ export class TodoController {
     this.todoService = todoService;
     this.todoList = document.querySelector("#todoList");
     window.addEventListener("load", () => {
-      this.todoForm = document.querySelector("#todoForm");
-      if (this.todoForm) {
-        this.todoForm.addEventListener("submit", (event) =>
-          this.handleTodoFormSubmit(event)
-        );
+      // Add event listener to form submit event
+      const todoForm = document.querySelector("#todoForm");
+      if (todoForm) {
+        todoForm.addEventListener("submit", (event) => {
+          this.handleTodoFormSubmit(event);
+        });
       }
     });
-
+    this.todoToEdit = null;
     window.addEventListener("load", () => {
       const urlParams = new URLSearchParams(window.location.search);
       const todoId = urlParams.get("id");
@@ -31,52 +32,72 @@ export class TodoController {
     const sortByNameButton = document.querySelector(
       'button[data-sort-by="name"]'
     );
-    if (sortByNameButton) {
-      sortByNameButton.addEventListener("click", () => {
-        this.sortTodosByTitle();
-      });
-    }
+
+    sortByNameButton.addEventListener("click", () => {
+      this.sortTodosByTitle();
+    });
 
     // Add event listener to "By Due Date" button
     const sortByDueDateButton = document.querySelector(
       'button[data-sort-by="dueDate"]'
     );
-    if (sortByDueDateButton) {
-      sortByDueDateButton.addEventListener("click", () => {
-        console.log("sortByDueDateButton");
-        this.sortTodosByDueDate();
-      });
-    }
+
+    sortByDueDateButton.addEventListener("click", () => {
+      console.log("sortByDueDateButton");
+      this.sortTodosByDueDate();
+    });
     // Add event listener to "By creationDate" button
     const sortByCreationDateButton = document.querySelector(
       'button[data-sort-by="creationDate"]'
     );
-    if (sortByCreationDateButton) {
-      sortByCreationDateButton.addEventListener("click", () => {
-        console.log("sortByCreationDateButton");
-        this.sortTodosByCreationDate();
-      });
-    }
+    sortByCreationDateButton.addEventListener("click", () => {
+      console.log("sortByCreationDateButton");
+      this.sortTodosByCreationDate();
+    });
 
     // Add event listener to "By importance" button
     const sortByImportanceButton = document.querySelector(
       'button[data-sort-by="importance"]'
     );
-    if (sortByImportanceButton) {
-      sortByImportanceButton.addEventListener("click", () => {
-        console.log("sortByImportanceButton");
-        this.sortTodosByImportance();
-      });
-    }
+    sortByImportanceButton.addEventListener("click", () => {
+      console.log("sortByImportanceButton");
+      this.sortTodosByImportance();
+    });
 
     // Add event listener to "By completed" button
     const sortByCompletedButton = document.querySelector(
       'button[data-sort-by="completed"]'
     );
-    if (sortByCompletedButton) {
-      sortByCompletedButton.addEventListener("click", () => {
-        this.sortTodosByCompleted();
+    sortByCompletedButton.addEventListener("click", () => {
+      this.sortTodosByCompleted();
+    });
+
+    // Add event listener to "add todo" button
+    const addTodoButton = document.querySelector("#addTodoButton");
+    addTodoButton.addEventListener("click", () => {
+      this.openDialog();
+    });
+
+    // Add event listener to "close" button
+    const closeDialogButton = document.querySelector("#closeDialogButton");
+    if (closeDialogButton) {
+      closeDialogButton.addEventListener("click", () => {
+        this.closeDialog();
       });
+    }
+  }
+
+  openDialog() {
+    const dialog = document.querySelector("#todoDialog");
+    if (dialog) {
+      dialog.showModal();
+    }
+  }
+
+  closeDialog() {
+    const dialog = document.querySelector("#todoDialog");
+    if (dialog) {
+      dialog.close();
     }
   }
 
@@ -118,21 +139,6 @@ export class TodoController {
     this.sortTodosByCriteria("completed");
   }
 
-  loadTodo(todoId) {
-    const todo = this.todoService.getTodoById(todoId);
-    if (todo) {
-      const todoInput = document.querySelector("#todoInput");
-      const descriptionInput = document.querySelector("#descriptionInput");
-      const dueDateInput = document.querySelector("#dueDateInput");
-      const importanceInput = document.querySelector("#importanceInput");
-
-      todoInput.value = todo.title;
-      descriptionInput.value = todo.description;
-      dueDateInput.value = todo.dueDate;
-      importanceInput.value = todo.importance;
-    }
-  }
-
   loadTodos() {
     this.todos = this.todoService.getAllTodos();
     let todoHTML = "";
@@ -161,7 +167,7 @@ export class TodoController {
       editButtons.forEach((editButton) => {
         editButton.addEventListener("click", (event) => {
           const todoId = event.target.dataset.id;
-          this.navigateToEditTodoPage(todoId);
+          this.openDialogForEdit(todoId);
         });
       });
 
@@ -195,10 +201,6 @@ export class TodoController {
     }
   }
 
-  navigateToEditTodoPage(id) {
-    window.location.href = `/todo.html?id=${id}`;
-  }
-
   addTodo(todo) {
     const randomId = Math.floor(Math.random() * 1000000);
     this.todoService.createTodo({
@@ -218,40 +220,58 @@ export class TodoController {
     this.loadTodos();
   }
 
+  openDialogForEdit(todoId) {
+    this.todoToEdit = this.todoService.getTodoById(parseInt(todoId));
+
+    const titleInput = document.querySelector("#title");
+    const descriptionInput = document.querySelector("#description");
+    const dueDateInput = document.querySelector("#dueDate");
+    const importanceInput = document.querySelector("#importance");
+
+    titleInput.value = this.todoToEdit.title;
+    descriptionInput.value = this.todoToEdit.description;
+    dueDateInput.value = this.todoToEdit.dueDate;
+    importanceInput.value = this.todoToEdit.importance;
+
+    this.openDialog();
+  }
+
   handleTodoFormSubmit(event) {
     event.preventDefault();
 
     // Extract the data from the form.
-    const todoInput = document.querySelector("#todoInput");
-    const descriptionInput = document.querySelector("#descriptionInput");
-    const dueDateInput = document.querySelector("#dueDateInput");
-    const importanceInput = document.querySelector("#importanceInput");
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const todoId = urlParams.get("id");
+    const titleInput = document.querySelector("#title");
+    const descriptionInput = document.querySelector("#description");
+    const dueDateInput = document.querySelector("#dueDate");
+    const importanceInput = document.querySelector("#importance");
 
     const todo = {
-      id: todoId ? parseInt(todoId) : Math.floor(Math.random() * 1000000),
-      title: todoInput.value,
-      description: descriptionInput.value,
-      dueDate: dueDateInput.value,
-      importance: importanceInput.value,
+      title: title.value,
+      description: description.value,
+      dueDate: dueDate.value,
+      importance: importance.value,
       completed: false,
       createdAt: new Date(),
-      creationDate: new Date(),
     };
 
-    if (todoId) {
-      this.updateTodoById(todoId, todo);
+    // If a todo is being edited, update it. Otherwise, add a new todo.
+    if (this.todoToEdit) {
+      todo.completed = this.todoToEdit.completed;
+      todo.createdAt = this.todoToEdit.createdAt;
+      this.updateTodoById(this.todoToEdit.id, todo);
+      this.todoToEdit = null;
     } else {
       this.addTodo(todo);
     }
 
     // Reset the form.
-    this.todoForm.reset();
+    title.value = "";
+    description.value = "";
+    dueDate.value = "";
+    importance.value = "";
 
-    // redirect to index.html
-    window.location.href = "/";
+    // Close the dialog.
+    document.getElementById("todoDialog").close();
   }
 }
 
