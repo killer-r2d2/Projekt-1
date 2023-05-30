@@ -31,44 +31,53 @@ export class TodoController {
     const sortByNameButton = document.querySelector(
       'button[data-sort-by="name"]'
     );
-    sortByNameButton.addEventListener("click", () => {
-      this.sortTodosByTitle();
-    });
+    if (sortByNameButton) {
+      sortByNameButton.addEventListener("click", () => {
+        this.sortTodosByTitle();
+      });
+    }
 
     // Add event listener to "By Due Date" button
     const sortByDueDateButton = document.querySelector(
       'button[data-sort-by="dueDate"]'
     );
-    sortByDueDateButton.addEventListener("click", () => {
-      console.log("sortByDueDateButton");
-      this.sortTodosByDueDate();
-    });
-
+    if (sortByDueDateButton) {
+      sortByDueDateButton.addEventListener("click", () => {
+        console.log("sortByDueDateButton");
+        this.sortTodosByDueDate();
+      });
+    }
     // Add event listener to "By creationDate" button
     const sortByCreationDateButton = document.querySelector(
       'button[data-sort-by="creationDate"]'
     );
-    sortByCreationDateButton.addEventListener("click", () => {
-      console.log("sortByCreationDateButton");
-      this.sortTodosByCreationDate();
-    });
+    if (sortByCreationDateButton) {
+      sortByCreationDateButton.addEventListener("click", () => {
+        console.log("sortByCreationDateButton");
+        this.sortTodosByCreationDate();
+      });
+    }
 
     // Add event listener to "By importance" button
     const sortByImportanceButton = document.querySelector(
       'button[data-sort-by="importance"]'
     );
-    sortByImportanceButton.addEventListener("click", () => {
-      console.log("sortByImportanceButton");
-      this.sortTodosByImportance();
-    });
+    if (sortByImportanceButton) {
+      sortByImportanceButton.addEventListener("click", () => {
+        console.log("sortByImportanceButton");
+        this.sortTodosByImportance();
+      });
+    }
 
     // Add event listener to "By completed" button
     const sortByCompletedButton = document.querySelector(
       'button[data-sort-by="completed"]'
     );
-    sortByCompletedButton.addEventListener("click", () => {
-      this.sortTodosByCompleted();
-    });
+    if (sortByCompletedButton) {
+      sortByCompletedButton.addEventListener("click", () => {
+        this.sortTodosByCompleted();
+      });
+    }
   }
 
   sortTodosByCriteria(criteria) {
