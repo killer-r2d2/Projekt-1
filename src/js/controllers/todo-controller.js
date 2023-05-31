@@ -248,6 +248,7 @@ export class TodoController {
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
+      creationDate: this.createdAt ? this.createdAt : new Date(),
       importance: importance.value,
       completed: false,
       createdAt: new Date(),
