@@ -91,11 +91,6 @@ ul {
   }
 }
 
-.HomeAndToggler {
-  display: flex;
-  justify-content: space-between;
-}
-
 .filterButton {
   margin-bottom: 0.5rem;
   width: 100%;
@@ -114,6 +109,12 @@ ul {
   align-items: center;
   border-bottom: 1px solid var(--primary-color);
   padding: 0.5rem 0;
+  gap: 1rem;
+}
+
+.listItem__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
@@ -137,11 +138,29 @@ ul {
   cursor: pointer;
 }
 
+/* primaryButton */
 .primaryButton:hover {
   background-color: transparent;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   transition: 0.3s;
+}
+.primaryButton:active {
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.primaryButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 5px rgba(6, 81, 78, 0.4);
+}
+.dark .primaryButton:active {
+  color: var(--primary-color);
+  background-color: transparent;
+  border-color: var(--primary-color);
+}
+.dark .primaryButton:focus {
+  box-shadow: 0 0 0 5px rgba(234, 235, 235, 0.4);
 }
 
 .iconArrowTrendingUp {
@@ -183,4 +202,10 @@ a {
 
 .dialogMenu {
   padding-left: 0;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: var(--primary-color) auto 2px;
 }

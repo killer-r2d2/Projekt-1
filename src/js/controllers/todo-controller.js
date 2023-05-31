@@ -149,9 +149,7 @@ export class TodoController {
     if (this.todoList) {
       this.todoList.innerHTML = todoHTML;
 
-      const deleteButtons = this.todoList.querySelectorAll(
-        ".listItem__buttons__deleteButton"
-      );
+      const deleteButtons = this.todoList.querySelectorAll(".deleteButton");
       deleteButtons.forEach((deleteButton) => {
         deleteButton.addEventListener("click", (event) => {
           const todoId = event.target.dataset.id;
@@ -159,9 +157,7 @@ export class TodoController {
         });
       });
 
-      const editButtons = this.todoList.querySelectorAll(
-        ".listItem__buttons__editButton"
-      );
+      const editButtons = this.todoList.querySelectorAll(".editButton");
       editButtons.forEach((editButton) => {
         editButton.addEventListener("click", (event) => {
           // Get the todo id from the data-id attribute

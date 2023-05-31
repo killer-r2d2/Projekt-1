@@ -54,20 +54,20 @@
         <ul class="listBox" id="todoList">
           <script id="todo-list-template" type="text/x-handlebars-template">
             <li class="listItem">
-              <div class="listItem__content">
-                <div class="listItem__content__title">
+              <div >
+                <div class="title">
                   <h2>{{title}}</h2>
                 </div>
-                <div class="listItem__content__description">
+                <div class="description">
                   <p>{{description}}</p>
                 </div>
-                <div class="listItem__content__dueDate">
+                <div class="dueDate">
                   dueDate:<p>{{dueDate}}</p>
                 </div>
-                <div class="listItem__content__creationDate">
+                <div class="creationDate">
                   creationDate:<p>{{creationDate}}</p>
                 </div>
-                <div class="listItem__content__importance">
+                <div class="importance">
                   <p>importance: {{importance}}</p>
                 </div>
                 <div>
@@ -77,13 +77,13 @@
               </div>
               <div class="listItem__buttons">
                 <button
-                  class="primaryButton listItem__buttons__editButton"
+                  class="primaryButton editButton"
                   data-id="{{id}}"
                 >
                   edit
                 </button>
                 <button
-                  class="primaryButton listItem__buttons__deleteButton"
+                  class="primaryButton deleteButton"
                   data-id="{{id}}"
                 >
                   delete
@@ -98,7 +98,7 @@
         <form id="todoForm">
           <div class="formBox">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" />
+            <input type="text" name="title" id="title" required />
           </div>
           <div class="formBox">
             <label for="description">Description</label>
@@ -106,18 +106,18 @@
           </div>
           <div class="formBox">
             <label for="dueDate">Due Date</label>
-            <input type="date" name="dueDate" id="dueDate" />
+            <input type="date" name="dueDate" id="dueDate" required />
           </div>
           <div class="formBox">
             <label for="importance">Importance</label>
-            <select id="importance">
+            <select id="importance" required>
               <option value="" disabled selected>Select importance</option>
               <option value="1">1 - not important</option>
               <option value="2">2 - important</option>
               <option value="3">3 - very important</option>
             </select>
           </div>
-          <div class="form__buttons">
+          <div>
             <button class="primaryButton" id="saveTodoButton" type="submit">
               save
             </button>
