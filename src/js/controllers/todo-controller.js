@@ -43,7 +43,6 @@ export class TodoController {
     );
 
     sortByDueDateButton.addEventListener("click", () => {
-      console.log("sortByDueDateButton");
       this.sortTodosByDueDate();
     });
     // Add event listener to "By creationDate" button
@@ -51,7 +50,6 @@ export class TodoController {
       'button[data-sort-by="creationDate"]'
     );
     sortByCreationDateButton.addEventListener("click", () => {
-      console.log("sortByCreationDateButton");
       this.sortTodosByCreationDate();
     });
 
@@ -60,7 +58,6 @@ export class TodoController {
       'button[data-sort-by="importance"]'
     );
     sortByImportanceButton.addEventListener("click", () => {
-      console.log("sortByImportanceButton");
       this.sortTodosByImportance();
     });
 

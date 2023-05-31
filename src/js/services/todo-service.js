@@ -1,7 +1,4 @@
 import { todoStorage } from "../storage/todo-storage.js";
-
-console.log(todoStorage);
-
 export class TodoService {
   constructor() {
     this.todoStorage = todoStorage;
