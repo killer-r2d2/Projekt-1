@@ -11,7 +11,7 @@ export class TodoService {
     return this.todoStorage.todos;
   }
   getTodoById(id) {
-    return this.todoStorage.todos.find((todo) => todo.id === id);
+    return this.todoStorage.todos.find((todo) => todo.id === parseInt(id));
   }
   createTodo(todo) {
     this.todoStorage.addTodo(todo);

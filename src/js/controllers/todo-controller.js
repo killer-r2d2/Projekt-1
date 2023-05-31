@@ -99,6 +99,7 @@ export class TodoController {
     if (dialog) {
       dialog.close();
     }
+    this.todoToEdit = null;
   }
 
   sortTodosByCriteria(criteria) {
@@ -166,6 +167,7 @@ export class TodoController {
       );
       editButtons.forEach((editButton) => {
         editButton.addEventListener("click", (event) => {
+          // Get the todo id from the data-id attribute
           const todoId = event.target.dataset.id;
           this.openDialogForEdit(todoId);
         });
@@ -239,13 +241,8 @@ export class TodoController {
   handleTodoFormSubmit(event) {
     event.preventDefault();
 
-    // Extract the data from the form.
-    const titleInput = document.querySelector("#title");
-    const descriptionInput = document.querySelector("#description");
-    const dueDateInput = document.querySelector("#dueDate");
-    const importanceInput = document.querySelector("#importance");
-
     const todo = {
+      id: this.todoToEdit ? this.todoToEdit.id : null,
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
@@ -269,6 +266,9 @@ export class TodoController {
     description.value = "";
     dueDate.value = "";
     importance.value = "";
+
+    // Reset the todoToEdit.
+    this.todoToEdit = null;
 
     // Close the dialog.
     document.getElementById("todoDialog").close();
