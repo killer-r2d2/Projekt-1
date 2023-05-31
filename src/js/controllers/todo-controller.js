@@ -242,7 +242,9 @@ export class TodoController {
     event.preventDefault();
 
     const todo = {
-      id: this.todoToEdit ? this.todoToEdit.id : null,
+      id: this.todoToEdit
+        ? this.todoToEdit.id
+        : Math.floor(Math.random() * 1000000),
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
