@@ -76,19 +76,13 @@ ul {
 }
 
 .filterBox {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
 @media (min-width: 700px) {
-  .filterBox {
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 1rem;
-  }
 }
 
 .filterButton {
@@ -129,16 +123,15 @@ ul {
   }
 }
 
+/* primaryButton */
 .primaryButton {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   border: 1px solid var(--primary-color);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   border-radius: 0.25rem;
   cursor: pointer;
 }
-
-/* primaryButton */
 .primaryButton:hover {
   background-color: transparent;
   color: var(--primary-color);
@@ -187,12 +180,22 @@ a {
 .todoDialog {
   border: none;
   border-radius: 0.25rem;
+  width: 28rem;
 }
 
 .formBox {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+}
+
+.formBox label {
+  margin-bottom: 0.5rem;
+}
+
+.formBox input,
+.formBox select {
+  height: 2.5rem;
 }
 
 .todoLabelInput {
