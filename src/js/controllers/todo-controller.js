@@ -10,23 +10,14 @@ export class TodoController {
     }
     this.todoService = todoService;
     this.todoList = document.querySelector("#todoList");
-    window.addEventListener("load", () => {
-      // Add event listener to form submit event
-      const todoForm = document.querySelector("#todoForm");
-      if (todoForm) {
-        todoForm.addEventListener("submit", (event) => {
-          this.handleTodoFormSubmit(event);
-        });
-      }
-    });
+    // Add event listener to form submit event
+    const todoForm = document.querySelector("#todoForm");
+    if (todoForm) {
+      todoForm.addEventListener("submit", (event) => {
+        this.handleTodoFormSubmit(event);
+      });
+    }
     this.todoToEdit = null;
-    window.addEventListener("load", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const todoId = urlParams.get("id");
-      if (todoId) {
-        this.loadTodo(todoId);
-      }
-    });
 
     // Add event listener to "By Name" button
     const sortByNameButton = document.querySelector(
