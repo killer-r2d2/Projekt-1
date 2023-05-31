@@ -97,13 +97,20 @@ ul {
 }
 
 .listItem {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
-  align-items: center;
   border-bottom: 1px solid var(--primary-color);
-  padding: 0.5rem 0;
-  gap: 1rem;
+  padding: 1.5rem 0;
+}
+@media (min-width: 800px) {
+  .listItem {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
+  }
+}
+
+.listItemForm {
+  margin-bottom: 1rem;
 }
 
 .listItem__buttons {
@@ -114,13 +121,6 @@ ul {
 
 .listItem.completed {
   opacity: 0.5;
-}
-
-@media (min-width: 800px) {
-  .listItem {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr;
-  }
 }
 
 /* primaryButton */
