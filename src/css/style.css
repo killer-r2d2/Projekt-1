@@ -186,6 +186,7 @@ a {
 
 .todoDialog {
   border: none;
+  border-radius: 0.25rem;
 }
 
 .formBox {
@@ -204,8 +205,18 @@ a {
   padding-left: 0;
 }
 
+.closeDialogButton {
+  margin-left: 1rem;
+}
+
 input:focus,
 textarea:focus,
 select:focus {
   outline: var(--primary-color) auto 2px;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  outline: var(--secondary-color) auto 2px;
 }
