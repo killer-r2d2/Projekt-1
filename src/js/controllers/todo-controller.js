@@ -240,6 +240,8 @@ export class TodoController {
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
+      // Calculate the number of days left until the due date from the current date on.
+      daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
       creationDate: this.createdAt
         ? this.createdAt
         : dayjs().format("YYYY-MM-DD"),

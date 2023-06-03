@@ -10,6 +10,7 @@ export class TodoStorage {
           title: "a", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
           dueDate: "2023-03-25", // todo due date
+          daysLeft: "5",
           importance: 1, // todo importance
           completed: false, // todo status
           createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
@@ -20,6 +21,7 @@ export class TodoStorage {
           title: "b", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
           dueDate: dayjs().format("YYYY-MM-DD"), // todo due date
+          daysLeft: "5",
           importance: 1, // todo importance
           completed: false, // todo status
           createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
