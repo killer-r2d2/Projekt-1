@@ -9,23 +9,23 @@ export class TodoStorage {
           id: 1, // unique id
           title: "a", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
-          dueDate: "2023-03-25", // todo due date
+          dueDate: "2023-08-25", // todo due date
           daysLeft: "5",
           importance: 1, // todo importance
           completed: false, // todo status
-          createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
-          creationDate: dayjs().format("YYYY-MM-DD"), // todo creation date
+          createdAt: "2023-04-03", // todo creation date
+          creationDate: "2023-04-03", // todo creation date
         },
         {
           id: 2, // unique id
           title: "b", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
-          dueDate: dayjs().format("YYYY-MM-DD"), // todo due date
-          daysLeft: "5",
+          dueDate: "2023-12-03", // todo due date
+          daysLeft: "88",
           importance: 1, // todo importance
           completed: false, // todo status
-          createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
-          creationDate: dayjs().format("YYYY-MM-DD"), // todo creation date
+          createdAt: "2023-02-03", // todo creation date
+          creationDate: "2023-02-03", // todo creation date
         },
       ];
       this.saveTodos();

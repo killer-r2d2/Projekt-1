@@ -1,5 +1,4 @@
 import { todoService } from "../services/todo-service.js";
-console.log(dayjs().format("YYYY-MM-DD"));
 export class TodoController {
   constructor() {
     this.sortAsc = true;
