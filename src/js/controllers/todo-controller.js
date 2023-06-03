@@ -74,6 +74,18 @@ export class TodoController {
         this.closeDialog();
       });
     }
+
+    // when filter button is clicked, first remove all filterButtonActive classes from buttons
+    // then add filterButtonActive class to the clicked button
+    const filterButtons = document.querySelectorAll(".filterButton");
+    filterButtons.forEach((filterButton) => {
+      filterButton.addEventListener("click", (event) => {
+        filterButtons.forEach((filterButton) => {
+          filterButton.classList.remove("filterButtonActive");
+        });
+        event.target.classList.add("filterButtonActive");
+      });
+    });
   }
 
   openDialog() {

@@ -157,6 +157,13 @@ ul {
   box-shadow: 0 0 0 5px rgba(234, 235, 235, 0.4);
 }
 
+.filterButtonActive {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  transition: 0.3s;
+}
+
 .iconArrowTrendingUp {
   height: 1rem;
   width: 1rem;
