@@ -7,7 +7,7 @@ export class TodoStorage {
       this.todos = [
         {
           id: 1, // unique id
-          title: "Learn JavaScript", // todo title
+          title: "a", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
           dueDate: "2023-03-25", // todo due date
           importance: 1, // todo importance
@@ -17,7 +17,7 @@ export class TodoStorage {
         },
         {
           id: 2, // unique id
-          title: "Learn CSS", // todo title
+          title: "b", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
           dueDate: new Date().toISOString().split("T")[0], // todo due date
           importance: 1, // todo importance

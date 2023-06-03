@@ -5,6 +5,7 @@ export class TodoService {
   }
 
   getAllTodos() {
+    // sorted by creationDate by default
     return this.todoStorage.todos;
   }
   getTodoById(id) {

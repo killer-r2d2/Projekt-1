@@ -2,6 +2,8 @@ import { todoService } from "../services/todo-service.js";
 
 export class TodoController {
   constructor() {
+    this.sortAsc = true;
+
     const todoTemplateElement = document.querySelector("#todo-list-template");
     if (todoTemplateElement) {
       this.todoTemplateCompiled = Handlebars.compile(
@@ -117,7 +119,7 @@ export class TodoController {
   }
 
   sortTodosByCreationDate() {
-    this.sortTodosByCriteria("createdAt");
+    this.sortTodosByCriteria("creationDate");
   }
 
   sortTodosByImportance() {
@@ -193,6 +195,12 @@ export class TodoController {
       id: randomId,
       ...todo,
     });
+    // Ensure new todo is at the top
+    const sortedTodos = this.todoService
+      .getAllTodos()
+      .sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+    this.todoService.updateAllTodos(sortedTodos);
+
     this.loadTodos();
   }
 
