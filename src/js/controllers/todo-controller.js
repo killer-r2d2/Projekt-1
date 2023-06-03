@@ -1,5 +1,5 @@
 import { todoService } from "../services/todo-service.js";
-
+console.log(dayjs().format("YYYY-MM-DD"));
 export class TodoController {
   constructor() {
     this.sortAsc = true;
@@ -198,7 +198,7 @@ export class TodoController {
     // Ensure new todo is at the top
     const sortedTodos = this.todoService
       .getAllTodos()
-      .sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+      .sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
     this.todoService.updateAllTodos(sortedTodos);
 
     this.loadTodos();
@@ -240,10 +240,12 @@ export class TodoController {
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
-      creationDate: this.createdAt ? this.createdAt : new Date(),
+      creationDate: this.createdAt
+        ? this.createdAt
+        : dayjs().format("YYYY-MM-DD"),
       importance: importance.value,
       completed: false,
-      createdAt: new Date(),
+      createdAt: dayjs().format("YYYY-MM-DD"),
     };
 
     // If a todo is being edited, update it. Otherwise, add a new todo.

@@ -12,18 +12,18 @@ export class TodoStorage {
           dueDate: "2023-03-25", // todo due date
           importance: 1, // todo importance
           completed: false, // todo status
-          createdAt: new Date().toISOString(), // todo creation date
-          creationDate: new Date().toISOString(), // todo creation date
+          createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
+          creationDate: dayjs().format("YYYY-MM-DD"), // todo creation date
         },
         {
           id: 2, // unique id
           title: "b", // todo title
           description: "Learn JavaScript to build interactive websites", // todo description
-          dueDate: new Date().toISOString().split("T")[0], // todo due date
+          dueDate: dayjs().format("YYYY-MM-DD"), // todo due date
           importance: 1, // todo importance
           completed: false, // todo status
-          createdAt: new Date().toISOString(), // todo creation date
-          creationDate: new Date().toISOString(), // todo creation date
+          createdAt: dayjs().format("YYYY-MM-DD"), // todo creation date
+          creationDate: dayjs().format("YYYY-MM-DD"), // todo creation date
         },
       ];
       this.saveTodos();
