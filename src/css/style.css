@@ -47,7 +47,6 @@ a {
 }
 
 .title {
-  margin-bottom: 2rem;
   font-weight: bold;
   font-size: 2rem;
 }
@@ -111,6 +110,8 @@ ul {
 
 .listItemForm {
   margin-bottom: 1rem;
+  display: grid;
+  gap: 1rem;
 }
 
 .listItem__buttons {
