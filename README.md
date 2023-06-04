@@ -22,5 +22,5 @@
 
 ### external librarys
 
-https://day.js.org/en/
-https://handlebarsjs.com/
+- https://day.js.org/en/
+- https://handlebarsjs.com/
