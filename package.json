@@ -1,14 +1,19 @@
 {
   "name": "projekt-1",
   "version": "1.0.0",
+  "type": "module",
   "description": "### Ziel - Grundlagen festigen von CSS/JS/HTML ### Aufgabe - Erstellen einer Notizapplikation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/js/server/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nedb": "^1.8.0",
     "normalize.css": "^8.0.1"
   }
 }
