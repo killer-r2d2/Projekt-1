@@ -4,8 +4,8 @@ import todoController from "../controllers/todo-controller.js";
 
 router.get("/todos", todoController.getTodos);
 router.get("/todos/:id", todoController.getTodoById);
-// router.post("/", todoController.createTodo);
-// router.delete("/:id", todoController.deleteTodoById);
-// router.put("/:id", todoController.updateTodoById);
+router.post("/todos", todoController.createTodo);
+router.put("/todos/:id", todoController.updateTodoById);
+router.delete("/todos/:id", todoController.deleteTodoById);
 
 export const todoRoutes = router;

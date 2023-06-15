@@ -30,4 +30,10 @@ const updateTodoById = async (req, res) => {
   res.json(updatedTodo);
 };
 
-export default { getTodos, getTodoById };
+export default {
+  getTodos,
+  getTodoById,
+  createTodo,
+  deleteTodoById,
+  updateTodoById,
+};
