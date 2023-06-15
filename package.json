@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/js/server/server.js"
+    "start": "nodemon src/api/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "nedb": "^1.8.0",
+    "nodemon": "^2.0.22",
     "normalize.css": "^8.0.1"
   }
 }
