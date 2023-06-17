@@ -142,6 +142,9 @@ export class TodoController {
     try {
       let todos = await this.todoService.getAllTodos();
       let todoHTML = "";
+
+      // sort todos by creationDate ascending
+      todos.sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
       if (this.todoTemplateCompiled) {
         todos.forEach((todo) => {
           const todoTemplate = this.todoTemplateCompiled(todo);
@@ -192,13 +195,6 @@ export class TodoController {
       await this.todoService.createTodo({
         ...todo,
       });
-      // Ensure new todo is at the top
-      const todos = await this.todoService.getAllTodos();
-      if (todos) {
-        const sortedTodos = todos.sort((a, b) =>
-          dayjs(b.creationDate).diff(dayjs(a.creationDate))
-        );
-      }
       await this.loadTodos();
     } catch (error) {
       console.error("Error in addTodo: ", error);
@@ -253,7 +249,7 @@ export class TodoController {
       daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
       creationDate: this.createdAt
         ? this.createdAt
-        : dayjs().format("YYYY-MM-DD"),
+        : dayjs().format("YYYY-MM-DD:HH:mm:ss"),
       importance: importance.value,
       completed: false,
       createdAt: dayjs().format("YYYY-MM-DD"),
