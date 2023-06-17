@@ -7,7 +7,6 @@
     <title>Projekt 1, CAS FEE2023</title>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script type="module" src="src/app/js/app.js"></script>
     <script type="module" src="/src/app/js/app.js"></script>
     <link rel="stylesheet" href="/src/app/css/style.css" />
     <link rel="stylesheet" href="/node_modules/normalize.css/normalize.css" />
@@ -53,6 +52,7 @@
             </button>
           </li>
         </ul>
+
         <ul class="listBox" id="todoList">
           <script id="todo-list-template" type="text/x-handlebars-template">
             <li class="listItem">
@@ -76,20 +76,20 @@
                   <p>importance: {{importance}}</p>
                 </div>
                 <div>
-                  <input type="checkbox" name="completedCheckbox" id="{{id}}" {{#if completed}} checked {{/if}}>
-                  <label for="{{id}}">completed</label>
+                  <input type="checkbox"  name="completedCheckbox" id="{{_id}}" {{#if completed}} checked {{/if}}>
+                  <label for="{{_id}}">completed</label>
                 </div>
               </div>
               <div class="listItem__buttons">
                 <button
                   class="primaryButton editButton"
-                  data-id="{{id}}"
+                  data-id="{{_id}}"
                 >
                   edit
                 </button>
                 <button
                   class="primaryButton deleteButton"
-                  data-id="{{id}}"
+                  data-id="{{_id}}"
                 >
                   delete
                 </button>

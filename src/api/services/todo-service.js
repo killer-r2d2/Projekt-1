@@ -45,6 +45,19 @@ const create = (todo) => {
   });
 };
 
+const deleteById = (id) => {
+  return new Promise((resolve, reject) => {
+    db.remove({ _id: id }, {}, (err, numRemoved) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve(numRemoved);
+      }
+    });
+  });
+};
+
 const update = (id, todo) => {
   return new Promise((resolve, reject) => {
     db.update({ _id: id }, todo, {}, (err, numReplaced) => {
@@ -65,4 +78,4 @@ const update = (id, todo) => {
   });
 };
 
-export default { get, getById };
+export default { get, getById, create, update, deleteById };

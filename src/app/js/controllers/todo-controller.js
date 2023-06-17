@@ -103,22 +103,19 @@ export class TodoController {
     this.todoToEdit = null;
   }
 
-  sortTodosByCriteria(criteria) {
-    const sortedTodos = this.todos.slice().sort((a, b) => {
-      const valueA = a[criteria];
-      const valueB = b[criteria];
-
-      if (valueA < valueB) {
+  async sortTodosByCriteria(criteria) {
+    console.log("sortTodosByCriteria: ", criteria);
+    this.todos.sort((a, b) => {
+      if (a[criteria] < b[criteria]) {
         return this.sortAsc ? -1 : 1;
-      } else if (valueA > valueB) {
-        return this.sortAsc ? 1 : -1;
-      } else {
-        return 0;
       }
+      if (a[criteria] > b[criteria]) {
+        return this.sortAsc ? 1 : -1;
+      }
+      return 0;
     });
-    this.todoService.updateAllTodos(sortedTodos);
     this.sortAsc = !this.sortAsc;
-    this.loadTodos();
+    await this.loadTodos();
   }
 
   sortTodosByTitle() {
@@ -141,117 +138,118 @@ export class TodoController {
     this.sortTodosByCriteria("completed");
   }
 
-  loadTodos() {
-    this.todos = this.todoService.getAllTodos();
-    let todoHTML = "";
-    if (this.todoTemplateCompiled) {
-      this.todos.forEach((todo) => {
-        const todoTemplate = this.todoTemplateCompiled(todo);
-        todoHTML += todoTemplate;
-      });
-    }
-    if (this.todoList) {
-      this.todoList.innerHTML = todoHTML;
-
-      const deleteButtons = this.todoList.querySelectorAll(".deleteButton");
-      deleteButtons.forEach((deleteButton) => {
-        deleteButton.addEventListener("click", (event) => {
-          const todoId = event.target.dataset.id;
-          this.deleteTodoById(todoId);
+  async loadTodos() {
+    try {
+      let todos = await this.todoService.getAllTodos();
+      let todoHTML = "";
+      if (this.todoTemplateCompiled) {
+        todos.forEach((todo) => {
+          const todoTemplate = this.todoTemplateCompiled(todo);
+          todoHTML += todoTemplate;
         });
-      });
+      }
+      if (this.todoList) {
+        this.todoList.innerHTML = todoHTML;
 
-      const editButtons = this.todoList.querySelectorAll(".editButton");
-      editButtons.forEach((editButton) => {
-        editButton.addEventListener("click", (event) => {
-          // Get the todo id from the data-id attribute
-          const todoId = event.target.dataset.id;
-          this.openDialogForEdit(todoId);
+        const deleteButtons = this.todoList.querySelectorAll(".deleteButton");
+        deleteButtons.forEach((deleteButton) => {
+          deleteButton.addEventListener("click", (event) => {
+            const todoId = event.target.dataset.id;
+            this.deleteTodoById(todoId);
+          });
         });
-      });
 
-      const checkboxes = this.todoList.querySelectorAll(
-        'input[name="completedCheckbox"]'
-      );
-      checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", (event) => {
-          const todoId = Number(event.target.id);
-          const todo = this.todoService.getTodoById(todoId);
-          if (todo) {
-            // Toggle the completed status of the todo
-            todo.completed = !todo.completed;
-            this.updateTodoById(todoId, todo);
-          }
+        const editButtons = this.todoList.querySelectorAll(".editButton");
+        editButtons.forEach((editButton) => {
+          editButton.addEventListener("click", (event) => {
+            const todoId = event.target.dataset.id;
+            this.openDialogForEdit(todoId);
+          });
         });
-      });
 
-      // if todo is completed, add class to the list item
-      const listItems = this.todoList.querySelectorAll(".listItem");
-      listItems.forEach((listItem) => {
-        const checkbox = listItem.querySelector(
+        const checkboxes = this.todoList.querySelectorAll(
           'input[name="completedCheckbox"]'
         );
-        if (checkbox.checked) {
-          listItem.classList.add("completed");
-        } else {
-          listItem.classList.remove("completed");
-        }
-      });
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", async (event) => {
+            const todoId = event.target.id;
+            const todo = await this.todoService.getTodoById(todoId);
+
+            if (todo) {
+              todo.completed = event.target.checked;
+              await this.todoService.updateTodoById(todoId, todo);
+            }
+          });
+        });
+      }
+    } catch (error) {
+      console.error("Error loading todos: ", error);
     }
   }
 
-  addTodo(todo) {
-    const randomId = Math.floor(Math.random() * 1000000);
-    this.todoService.createTodo({
-      id: randomId,
-      ...todo,
-    });
-    // Ensure new todo is at the top
-    const sortedTodos = this.todoService
-      .getAllTodos()
-      .sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
-    this.todoService.updateAllTodos(sortedTodos);
-
-    this.loadTodos();
+  async addTodo(todo) {
+    try {
+      await this.todoService.createTodo({
+        ...todo,
+      });
+      // Ensure new todo is at the top
+      const todos = await this.todoService.getAllTodos();
+      if (todos) {
+        const sortedTodos = todos.sort((a, b) =>
+          dayjs(b.creationDate).diff(dayjs(a.creationDate))
+        );
+      }
+      await this.loadTodos();
+    } catch (error) {
+      console.error("Error in addTodo: ", error);
+    }
   }
 
-  deleteTodoById(id) {
-    this.todoService.deleteTodoById(id);
-    this.loadTodos();
+  async deleteTodoById(id) {
+    await this.todoService.deleteTodoById(id);
+    await this.loadTodos();
   }
 
-  updateTodoById(id, updatedTodo) {
-    this.todoService.updateTodoById(id, updatedTodo);
-    this.loadTodos();
+  async updateTodoById(id, updatedTodo) {
+    await this.todoService.updateTodoById(id, updatedTodo);
+    await this.loadTodos();
   }
 
-  openDialogForEdit(todoId) {
-    this.todoToEdit = this.todoService.getTodoById(parseInt(todoId));
+  async openDialogForEdit(event) {
+    let todoId = event;
 
-    const titleInput = document.querySelector("#title");
-    const descriptionInput = document.querySelector("#description");
-    const dueDateInput = document.querySelector("#dueDate");
-    const importanceInput = document.querySelector("#importance");
+    try {
+      this.todoToEdit = await this.todoService.getTodoById(todoId);
 
-    titleInput.value = this.todoToEdit.title;
-    descriptionInput.value = this.todoToEdit.description;
-    dueDateInput.value = this.todoToEdit.dueDate;
-    importanceInput.value = this.todoToEdit.importance;
+      // check if the todo is not found
+      if (!this.todoToEdit) {
+        console.error("Todo not found");
+        return;
+      }
 
-    this.openDialog();
+      const titleInput = document.querySelector("#title");
+      const descriptionInput = document.querySelector("#description");
+      const dueDateInput = document.querySelector("#dueDate");
+      const importanceInput = document.querySelector("#importance");
+
+      titleInput.value = this.todoToEdit.title;
+      descriptionInput.value = this.todoToEdit.description;
+      dueDateInput.value = this.todoToEdit.dueDate;
+      importanceInput.value = this.todoToEdit.importance;
+
+      this.openDialog();
+    } catch (error) {
+      console.error("Error in openDialogForEdit: ", error);
+    }
   }
 
   handleTodoFormSubmit(event) {
     event.preventDefault();
 
     const todo = {
-      id: this.todoToEdit
-        ? this.todoToEdit.id
-        : Math.floor(Math.random() * 1000000),
       title: title.value,
       description: description.value,
       dueDate: dueDate.value,
-      // Calculate the number of days left until the due date from the current date on.
       daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
       creationDate: this.createdAt
         ? this.createdAt
@@ -263,9 +261,10 @@ export class TodoController {
 
     // If a todo is being edited, update it. Otherwise, add a new todo.
     if (this.todoToEdit) {
+      todo._id = this.todoToEdit._id;
       todo.completed = this.todoToEdit.completed;
       todo.createdAt = this.todoToEdit.createdAt;
-      this.updateTodoById(this.todoToEdit.id, todo);
+      this.updateTodoById(this.todoToEdit._id, todo);
       this.todoToEdit = null;
     } else {
       this.addTodo(todo);

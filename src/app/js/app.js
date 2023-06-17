@@ -6,6 +6,5 @@ initTheme();
 themeToggler("#themeToggler");
 
 window.addEventListener("DOMContentLoaded", () => {
-  const todoList = document.querySelector("#todoList");
   todoController.loadTodos(todoList);
 });

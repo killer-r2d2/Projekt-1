@@ -1,41 +1,81 @@
 // import { todoStorage } from "../storage/todo-storage-old.js";
 export class TodoService {
   constructor() {
-    // this.todoStorage = todoStorage;
+    this.baseUrl = "http://127.0.0.1:5000/api/todos";
   }
-  // fetch todos from the server and log them to the console with try/catch
-
   async getAllTodos() {
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/todos");
+      const response = await fetch(this.baseUrl);
       const todos = await response.json();
-      console.log(todos);
+      return todos;
     } catch (err) {
       console.error(err);
+      return null;
     }
   }
-  getTodoById(id) {
-    // return this.todoStorage.todos.find((todo) => todo.id === parseInt(id));
+  async getTodoById(id) {
+    try {
+      const response = await fetch(`${this.baseUrl}/${id}`);
+      const todo = await response.json();
+      return todo;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
-  createTodo(todo) {
-    // this.todoStorage.addTodo(todo);
+  async createTodo(todo) {
+    try {
+      const response = await fetch(this.baseUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      const createdTodo = await response.json();
+      return createdTodo;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
-  deleteTodoById(id) {
-    // this.todoStorage.deleteTodoById(id);
+  async deleteTodoById(id) {
+    try {
+      // console.log("deleteTodoById: ", id);
+      const response = await fetch(`${this.baseUrl}/${id}`, {
+        method: "DELETE",
+      });
+      // Check the response from the server
+      if (!response.ok) {
+        throw new Error(
+          `Failed to delete todo with id ${id}: ${response.status}`
+        );
+      }
+      const deletedTodo = await response.json();
+      return deletedTodo;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
-  updateTodoById(id, updatedTodo) {
-    // const todoIndex = this.todoStorage.todos.findIndex(
-    //   (todo) => todo.id === parseInt(id)
-    // );
-    // if (todoIndex !== -1) {
-    //   this.todoStorage.todos[todoIndex] = updatedTodo;
-    //   this.todoStorage.saveTodos();
-    // }
-  }
-  updateAllTodos(updatedTodos) {
-    //   this.todoStorage.todos = updatedTodos;
-    //   this.todoStorage.saveTodos();
-    // }
+  async updateTodoById(id, updatedTodo) {
+    console.log("updateTodoById: ", id, updatedTodo);
+    console.log("updateTodoById: ", id, updatedTodo);
+
+    try {
+      const response = await fetch(`${this.baseUrl}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTodo),
+      });
+      const updatedTodoFromServer = await response.json();
+      return updatedTodoFromServer;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 }
 

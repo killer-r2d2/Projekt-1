@@ -26,7 +26,7 @@ const deleteTodoById = async (req, res) => {
 const updateTodoById = async (req, res) => {
   const id = req.params.id;
   const todo = req.body;
-  const updatedTodo = await todoService.updateById(id, todo);
+  const updatedTodo = await todoService.update(id, todo);
   res.json(updatedTodo);
 };
 
