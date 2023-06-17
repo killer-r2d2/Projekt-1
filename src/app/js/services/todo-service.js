@@ -3,9 +3,11 @@ export class TodoService {
   constructor() {
     this.baseUrl = "http://127.0.0.1:5000/api/todos";
   }
-  async getAllTodos() {
+  async getAllTodos(filter = {}) {
     try {
-      const response = await fetch(this.baseUrl);
+      const response = await fetch(
+        `${this.baseUrl}?filter=${encodeURIComponent(JSON.stringify(filter))}`
+      );
       const todos = await response.json();
       return todos;
     } catch (err) {
@@ -13,6 +15,7 @@ export class TodoService {
       return null;
     }
   }
+
   async getTodoById(id) {
     try {
       const response = await fetch(`${this.baseUrl}/${id}`);

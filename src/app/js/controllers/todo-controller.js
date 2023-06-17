@@ -1,6 +1,7 @@
 import { todoService } from "../services/todo-service.js";
 export class TodoController {
   constructor() {
+    this.showCompleted = false;
     this.sortAsc = true;
 
     const todoTemplateElement = document.querySelector("#todo-list-template");
@@ -20,45 +21,21 @@ export class TodoController {
     }
     this.todoToEdit = null;
 
-    // Add event listener to "By Name" button
-    const sortByNameButton = document.querySelector(
-      'button[data-sort-by="name"]'
-    );
+    const sortCriteria = [
+      "name",
+      "dueDate",
+      "creationDate",
+      "importance",
+      "completed",
+    ];
 
-    sortByNameButton.addEventListener("click", () => {
-      this.sortTodosByTitle();
-    });
-
-    // Add event listener to "By Due Date" button
-    const sortByDueDateButton = document.querySelector(
-      'button[data-sort-by="dueDate"]'
-    );
-
-    sortByDueDateButton.addEventListener("click", () => {
-      this.sortTodosByDueDate();
-    });
-    // Add event listener to "By creationDate" button
-    const sortByCreationDateButton = document.querySelector(
-      'button[data-sort-by="creationDate"]'
-    );
-    sortByCreationDateButton.addEventListener("click", () => {
-      this.sortTodosByCreationDate();
-    });
-
-    // Add event listener to "By importance" button
-    const sortByImportanceButton = document.querySelector(
-      'button[data-sort-by="importance"]'
-    );
-    sortByImportanceButton.addEventListener("click", () => {
-      this.sortTodosByImportance();
-    });
-
-    // Add event listener to "By completed" button
-    const sortByCompletedButton = document.querySelector(
-      'button[data-sort-by="completed"]'
-    );
-    sortByCompletedButton.addEventListener("click", () => {
-      this.sortTodosByCompleted();
+    sortCriteria.forEach((criteria) => {
+      const button = document.querySelector(
+        `button[data-sort-by="${criteria}"]`
+      );
+      button.addEventListener("click", () => {
+        this.sortAndFilterTodos(criteria);
+      });
     });
 
     // Add event listener to "add todo" button
@@ -103,45 +80,82 @@ export class TodoController {
     this.todoToEdit = null;
   }
 
-  async sortTodosByCriteria(criteria) {
-    console.log("sortTodosByCriteria: ", criteria);
-    this.todos.sort((a, b) => {
-      if (a[criteria] < b[criteria]) {
-        return this.sortAsc ? -1 : 1;
+  async sortAndFilterTodos(criteria) {
+    let criteriaToSortBy = criteria;
+    let todos = await this.todoService.getAllTodos();
+    if (criteriaToSortBy === "name") {
+      todos.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (criteriaToSortBy === "dueDate") {
+      todos.sort((a, b) => dayjs(a.dueDate).diff(dayjs(b.dueDate)));
+    } else if (criteriaToSortBy === "creationDate") {
+      todos.sort((a, b) => dayjs(a.creationDate).diff(dayjs(b.creationDate)));
+    } else if (criteriaToSortBy === "importance") {
+      todos.sort((a, b) => b.importance - a.importance);
+    } else if (criteriaToSortBy === "completed") {
+      if (!this.showCompleted) {
+        todos = todos.filter((todo) => todo.completed);
       }
-      if (a[criteria] > b[criteria]) {
-        return this.sortAsc ? 1 : -1;
-      }
-      return 0;
-    });
+      this.showCompleted = !this.showCompleted;
+    }
+    if (!this.sortAsc) {
+      todos.reverse();
+    }
     this.sortAsc = !this.sortAsc;
-    await this.loadTodos();
+    let todoHTML = "";
+    if (this.todoTemplateCompiled) {
+      todos.forEach((todo) => {
+        const todoTemplate = this.todoTemplateCompiled(todo);
+        todoHTML += todoTemplate;
+      });
+    }
+    if (this.todoList) {
+      this.todoList.innerHTML = todoHTML;
+    }
+    this.attachEventHandlers();
   }
 
-  sortTodosByTitle() {
-    this.sortTodosByCriteria("title");
-  }
+  attachEventHandlers() {
+    const deleteButtons = this.todoList.querySelectorAll(".deleteButton");
+    deleteButtons.forEach((deleteButton) => {
+      deleteButton.addEventListener("click", (event) => {
+        const todoId = event.target.dataset.id;
+        this.deleteTodoById(todoId);
+      });
+    });
 
-  sortTodosByDueDate() {
-    this.sortTodosByCriteria("dueDate");
-  }
+    const editButtons = this.todoList.querySelectorAll(".editButton");
+    editButtons.forEach((editButton) => {
+      editButton.addEventListener("click", (event) => {
+        const todoId = event.target.dataset.id;
+        this.openDialogForEdit(todoId);
+      });
+    });
 
-  sortTodosByCreationDate() {
-    this.sortTodosByCriteria("creationDate");
-  }
+    const checkboxes = this.todoList.querySelectorAll(
+      'input[name="completedCheckbox"]'
+    );
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", async (event) => {
+        const todoId = event.target.id;
+        const todo = await this.todoService.getTodoById(todoId);
 
-  sortTodosByImportance() {
-    this.sortTodosByCriteria("importance");
-  }
-
-  sortTodosByCompleted() {
-    this.sortTodosByCriteria("completed");
+        if (todo) {
+          todo.completed = event.target.checked;
+          await this.todoService.updateTodoById(todoId, todo);
+        }
+      });
+    });
   }
 
   async loadTodos() {
     try {
       let todos = await this.todoService.getAllTodos();
       let todoHTML = "";
+
+      if (!todos) {
+        console.error("No todos found");
+        return;
+      }
 
       // sort todos by creationDate ascending
       todos.sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
@@ -154,36 +168,7 @@ export class TodoController {
       if (this.todoList) {
         this.todoList.innerHTML = todoHTML;
 
-        const deleteButtons = this.todoList.querySelectorAll(".deleteButton");
-        deleteButtons.forEach((deleteButton) => {
-          deleteButton.addEventListener("click", (event) => {
-            const todoId = event.target.dataset.id;
-            this.deleteTodoById(todoId);
-          });
-        });
-
-        const editButtons = this.todoList.querySelectorAll(".editButton");
-        editButtons.forEach((editButton) => {
-          editButton.addEventListener("click", (event) => {
-            const todoId = event.target.dataset.id;
-            this.openDialogForEdit(todoId);
-          });
-        });
-
-        const checkboxes = this.todoList.querySelectorAll(
-          'input[name="completedCheckbox"]'
-        );
-        checkboxes.forEach((checkbox) => {
-          checkbox.addEventListener("change", async (event) => {
-            const todoId = event.target.id;
-            const todo = await this.todoService.getTodoById(todoId);
-
-            if (todo) {
-              todo.completed = event.target.checked;
-              await this.todoService.updateTodoById(todoId, todo);
-            }
-          });
-        });
+        this.attachEventHandlers();
       }
     } catch (error) {
       console.error("Error loading todos: ", error);
@@ -213,16 +198,13 @@ export class TodoController {
 
   async openDialogForEdit(event) {
     let todoId = event;
-
     try {
       this.todoToEdit = await this.todoService.getTodoById(todoId);
-
       // check if the todo is not found
       if (!this.todoToEdit) {
         console.error("Todo not found");
         return;
       }
-
       const titleInput = document.querySelector("#title");
       const descriptionInput = document.querySelector("#description");
       const dueDateInput = document.querySelector("#dueDate");
@@ -241,7 +223,6 @@ export class TodoController {
 
   handleTodoFormSubmit(event) {
     event.preventDefault();
-
     const todo = {
       title: title.value,
       description: description.value,

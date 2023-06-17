@@ -1,7 +1,11 @@
 import todoService from "../services/todo-service.js";
 
 const getTodos = async (req, res) => {
-  const todos = await todoService.get({});
+  // Parse filter and sort parameters from query string
+  const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+  const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+
+  const todos = await todoService.get(filter, sort);
   res.json(todos);
 };
 

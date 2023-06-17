@@ -6,14 +6,21 @@ let db = new Datastore({
   autoload: true,
 });
 
-const get = (params) => {
+const get = (filter = {}, sort = {}) => {
   return new Promise((resolve, reject) => {
-    db.find(params, (err, todos) => {
+    db.find(filter, (err, todos) => {
       if (err) {
         console.error(err);
         reject(err);
       } else {
-        resolve(todos);
+        const sortedTodos = todos.sort((a, b) => {
+          for (const key in sort) {
+            if (a[key] < b[key]) return sort[key]; // returns -1 or 1 depending on sort[key]
+            if (a[key] > b[key]) return -sort[key]; // returns 1 or -1 depending on sort[key]
+          }
+          return 0;
+        });
+        resolve(sortedTodos);
       }
     });
   });
