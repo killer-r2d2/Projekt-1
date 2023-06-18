@@ -1,4 +1,3 @@
-// import { todoStorage } from "../storage/todo-storage-old.js";
 export class TodoService {
   constructor() {
     this.baseUrl = "http://127.0.0.1:5000/api/todos";
