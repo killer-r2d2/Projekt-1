@@ -1,7 +1,4 @@
 import { todoService } from "../services/todo-service.js";
-import dayjs from "../../node_modules/dayjs/dayjs.min.js";
-let now = dayjs();
-console.log(now.format("YYYY-MM-DD HH:mm:ss"));
 
 export class TodoController {
   constructor() {
