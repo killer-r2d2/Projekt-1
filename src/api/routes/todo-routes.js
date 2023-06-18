@@ -1,6 +1,6 @@
 import express from "express";
-const router = express.Router();
 import todoController from "../controllers/todo-controller.js";
+const router = express.Router();
 
 router.get("/todos", todoController.getTodos);
 router.get("/todos/:id", todoController.getTodoById);

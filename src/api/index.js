@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-// import Datastore from "nedb";
 import { todoRoutes } from "./routes/todo-routes.js";
 
 const app = express();
