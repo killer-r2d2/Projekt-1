@@ -1,4 +1,8 @@
 import { todoService } from "../services/todo-service.js";
+import dayjs from "../../node_modules/dayjs/dayjs.min.js";
+let now = dayjs();
+console.log(now.format("YYYY-MM-DD HH:mm:ss"));
+
 export class TodoController {
   constructor() {
     this.showCompleted = false;
@@ -230,7 +234,7 @@ export class TodoController {
       daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
       creationDate: this.createdAt
         ? this.createdAt
-        : dayjs().format("YYYY-MM-DD:HH:mm:ss"),
+        : dayjs().format("DD-MM-YYYY HH:mm:ss"),
       importance: importance.value,
       completed: false,
       createdAt: dayjs().format("YYYY-MM-DD"),
