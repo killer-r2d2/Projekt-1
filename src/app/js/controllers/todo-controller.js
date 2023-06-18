@@ -7,6 +7,7 @@ export class TodoController {
 
     const todoTemplateElement = document.querySelector("#todo-list-template");
     if (todoTemplateElement) {
+      // eslint-disable-next-line no-undef
       this.todoTemplateCompiled = Handlebars.compile(
         todoTemplateElement.innerHTML
       );
@@ -58,6 +59,7 @@ export class TodoController {
     const filterButtons = document.querySelectorAll(".filterButton");
     filterButtons.forEach((filterButton) => {
       filterButton.addEventListener("click", (event) => {
+        // eslint-disable-next-line no-shadow
         filterButtons.forEach((filterButton) => {
           filterButton.classList.remove("filterButtonActive");
         });
@@ -66,6 +68,7 @@ export class TodoController {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   openDialog() {
     const dialog = document.querySelector("#todoDialog");
     if (dialog) {
@@ -82,13 +85,15 @@ export class TodoController {
   }
 
   async sortAndFilterTodos(criteria) {
-    let criteriaToSortBy = criteria;
+    const criteriaToSortBy = criteria;
     let todos = await this.todoService.getAllTodos();
     if (criteriaToSortBy === "name") {
       todos.sort((a, b) => a.title.localeCompare(b.title));
     } else if (criteriaToSortBy === "dueDate") {
+      // eslint-disable-next-line no-undef
       todos.sort((a, b) => dayjs(a.dueDate).diff(dayjs(b.dueDate)));
     } else if (criteriaToSortBy === "creationDate") {
+      // eslint-disable-next-line no-undef
       todos.sort((a, b) => dayjs(a.creationDate).diff(dayjs(b.creationDate)));
     } else if (criteriaToSortBy === "importance") {
       todos.sort((a, b) => b.importance - a.importance);
@@ -150,7 +155,7 @@ export class TodoController {
 
   async loadTodos() {
     try {
-      let todos = await this.todoService.getAllTodos();
+      const todos = await this.todoService.getAllTodos();
       let todoHTML = "";
 
       if (!todos) {
@@ -159,6 +164,7 @@ export class TodoController {
       }
 
       // sort todos by creationDate ascending
+      // eslint-disable-next-line no-undef
       todos.sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
       if (this.todoTemplateCompiled) {
         todos.forEach((todo) => {
@@ -198,7 +204,7 @@ export class TodoController {
   }
 
   async openDialogForEdit(event) {
-    let todoId = event;
+    const todoId = event;
     try {
       this.todoToEdit = await this.todoService.getTodoById(todoId);
       // check if the todo is not found
@@ -225,23 +231,32 @@ export class TodoController {
   handleTodoFormSubmit(event) {
     event.preventDefault();
     const todo = {
+      // eslint-disable-next-line no-undef
       title: title.value,
+      // eslint-disable-next-line no-undef
       description: description.value,
+      // eslint-disable-next-line no-undef
       dueDate: dueDate.value,
+      // eslint-disable-next-line no-undef
       daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
       creationDate: this.createdAt
         ? this.createdAt
-        : dayjs().format("DD-MM-YYYY HH:mm:ss"),
+        : // eslint-disable-next-line no-undef
+          dayjs().format("DD-MM-YYYY HH:mm:ss"),
+      // eslint-disable-next-line no-undef
       importance: importance.value,
       completed: false,
+      // eslint-disable-next-line no-undef
       createdAt: dayjs().format("YYYY-MM-DD"),
     };
 
     // If a todo is being edited, update it. Otherwise, add a new todo.
     if (this.todoToEdit) {
+      // eslint-disable-next-line no-underscore-dangle
       todo._id = this.todoToEdit._id;
       todo.completed = this.todoToEdit.completed;
       todo.createdAt = this.todoToEdit.createdAt;
+      // eslint-disable-next-line no-underscore-dangle
       this.updateTodoById(this.todoToEdit._id, todo);
       this.todoToEdit = null;
     } else {
@@ -249,9 +264,13 @@ export class TodoController {
     }
 
     // Reset the form.
+    // eslint-disable-next-line no-undef
     title.value = "";
+    // eslint-disable-next-line no-undef
     description.value = "";
+    // eslint-disable-next-line no-undef
     dueDate.value = "";
+    // eslint-disable-next-line no-undef
     importance.value = "";
 
     // Reset the todoToEdit.

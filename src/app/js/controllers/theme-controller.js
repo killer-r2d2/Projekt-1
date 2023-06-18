@@ -3,9 +3,9 @@
 const initTheme = () => {
   const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
   const currentTheme = localStorage.getItem("theme");
-  if (currentTheme == "dark") {
+  if (currentTheme === "dark") {
     document.body.classList.toggle("dark");
-  } else if (currentTheme == "light") {
+  } else if (currentTheme === "light") {
     document.body.classList.toggle("light");
   } else if (prefersDarkScheme.matches) {
     document.body.classList.toggle("dark");
@@ -18,6 +18,7 @@ const initTheme = () => {
 
 // toggle theme
 const themeToggler = () => {
+  // eslint-disable-next-line no-shadow
   const themeToggler = document.querySelector("#themeToggler");
   themeToggler.addEventListener("click", () => {
     const currentTheme = document.body.classList.contains("dark")

@@ -3,6 +3,7 @@ export class TodoService {
   constructor() {
     this.baseUrl = "http://127.0.0.1:5000/api/todos";
   }
+
   async getAllTodos(filter = {}) {
     try {
       const response = await fetch(
@@ -26,6 +27,7 @@ export class TodoService {
       return null;
     }
   }
+
   async createTodo(todo) {
     try {
       const response = await fetch(this.baseUrl, {
@@ -42,6 +44,7 @@ export class TodoService {
       return null;
     }
   }
+
   async deleteTodoById(id) {
     try {
       // console.log("deleteTodoById: ", id);
@@ -61,10 +64,8 @@ export class TodoService {
       return null;
     }
   }
-  async updateTodoById(id, updatedTodo) {
-    console.log("updateTodoById: ", id, updatedTodo);
-    console.log("updateTodoById: ", id, updatedTodo);
 
+  async updateTodoById(id, updatedTodo) {
     try {
       const response = await fetch(`${this.baseUrl}/${id}`, {
         method: "PUT",

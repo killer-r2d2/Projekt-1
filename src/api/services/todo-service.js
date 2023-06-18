@@ -1,19 +1,20 @@
 import Datastore from "nedb";
 
 const dbPath = "./data/database.db";
-let db = new Datastore({
+const db = new Datastore({
   filename: dbPath,
   autoload: true,
 });
 
-const get = (filter = {}, sort = {}) => {
-  return new Promise((resolve, reject) => {
+const get = (filter = {}, sort = {}) =>
+  new Promise((resolve, reject) => {
     db.find(filter, (err, todos) => {
       if (err) {
         console.error(err);
         reject(err);
       } else {
         const sortedTodos = todos.sort((a, b) => {
+          // eslint-disable-next-line no-restricted-syntax, guard-for-in
           for (const key in sort) {
             if (a[key] < b[key]) return sort[key]; // returns -1 or 1 depending on sort[key]
             if (a[key] > b[key]) return -sort[key]; // returns 1 or -1 depending on sort[key]
@@ -24,10 +25,9 @@ const get = (filter = {}, sort = {}) => {
       }
     });
   });
-};
 
-const getById = (id) => {
-  return new Promise((resolve, reject) => {
+const getById = (id) =>
+  new Promise((resolve, reject) => {
     db.findOne({ _id: id }, (err, todo) => {
       if (err) {
         console.error(err);
@@ -37,10 +37,9 @@ const getById = (id) => {
       }
     });
   });
-};
 
-const create = (todo) => {
-  return new Promise((resolve, reject) => {
+const create = (todo) =>
+  new Promise((resolve, reject) => {
     db.insert(todo, (err, newTodo) => {
       if (err) {
         console.error(err);
@@ -50,10 +49,9 @@ const create = (todo) => {
       }
     });
   });
-};
 
-const deleteById = (id) => {
-  return new Promise((resolve, reject) => {
+const deleteById = (id) =>
+  new Promise((resolve, reject) => {
     db.remove({ _id: id }, {}, (err, numRemoved) => {
       if (err) {
         console.error(err);
@@ -63,15 +61,15 @@ const deleteById = (id) => {
       }
     });
   });
-};
 
-const update = (id, todo) => {
-  return new Promise((resolve, reject) => {
-    db.update({ _id: id }, todo, {}, (err, numReplaced) => {
+const update = (id, todo) =>
+  new Promise((resolve, reject) => {
+    db.update({ _id: id }, todo, {}, (err) => {
       if (err) {
         console.error(err);
         reject(err);
       } else {
+        // eslint-disable-next-line no-shadow
         db.findOne({ _id: id }, (err, updatedTodo) => {
           if (err) {
             console.error(err);
@@ -83,6 +81,5 @@ const update = (id, todo) => {
       }
     });
   });
-};
 
 export default { get, getById, create, update, deleteById };

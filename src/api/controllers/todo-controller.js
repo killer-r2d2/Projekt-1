@@ -10,7 +10,7 @@ const getTodos = async (req, res) => {
 };
 
 const getTodoById = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const todo = await todoService.getById(id);
   res.json(todo);
 };
@@ -22,13 +22,13 @@ const createTodo = async (req, res) => {
 };
 
 const deleteTodoById = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const deletedTodo = await todoService.deleteById(id);
   res.json(deletedTodo);
 };
 
 const updateTodoById = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const todo = req.body;
   const updatedTodo = await todoService.update(id, todo);
   res.json(updatedTodo);
