@@ -5,8 +5,12 @@
   "description": "### Ziel - Grundlagen festigen von CSS/JS/HTML ### Aufgabe - Erstellen einer Notizapplikation",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/api/index.js"
+    "stylelint": "stylelint \"**/*.css\"",
+    "w3c": "html-validator --file ./src/app/index.html  --verbose",
+    "eslint": "eslint \"**/*.js\"",
+    "all": "npm run stylelint && npm run w3c  && npm run eslint  && node -e \"console.log('npm run all completed')\""
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +20,15 @@
     "nedb": "^1.8.0",
     "nodemon": "^2.0.22",
     "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "html-validator-cli": "^7.0.1",
+    "prettier": "2.6.2",
+    "stylelint": "^14.7.1",
+    "stylelint-config-standard": "^25.0.0"
   }
 }
