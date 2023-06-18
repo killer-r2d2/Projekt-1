@@ -24,3 +24,7 @@
 
 - https://day.js.org/en/
 - https://handlebarsjs.com/
+
+### Getting started:
+
+- server starten mit «npm run start»
