@@ -22,4 +22,4 @@
 
 ### Getting started:
 
-- Applikation starten mit «npm run start», api und app werden gestartet.
+- Server starten mit «npm run api»
