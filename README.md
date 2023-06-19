@@ -20,11 +20,6 @@
 - Abspeichern der Daten auf dem Server
 - Wechseln des Styles
 
-### external librarys
-
-- https://day.js.org/en/
-- https://handlebarsjs.com/
-
 ### Getting started:
 
-- server starten mit «npm run start»
+- Applikation starten mit «npm run start», api und app werden gestartet.
