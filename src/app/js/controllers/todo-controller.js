@@ -90,11 +90,29 @@ export class TodoController {
     if (criteriaToSortBy === "name") {
       todos.sort((a, b) => a.title.localeCompare(b.title));
     } else if (criteriaToSortBy === "dueDate") {
-      // eslint-disable-next-line no-undef
-      todos.sort((a, b) => dayjs(a.dueDate).diff(dayjs(b.dueDate)));
+      todos.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
     } else if (criteriaToSortBy === "creationDate") {
-      // eslint-disable-next-line no-undef
-      todos.sort((a, b) => dayjs(a.creationDate).diff(dayjs(b.creationDate)));
+      todos.sort((a, b) => {
+        const aDateParts = a.creationDate.split(/[- :]/);
+        const bDateParts = b.creationDate.split(/[- :]/);
+        const aDate = new Date(
+          aDateParts[2],
+          aDateParts[1] - 1,
+          aDateParts[0],
+          aDateParts[3],
+          aDateParts[4],
+          aDateParts[5]
+        );
+        const bDate = new Date(
+          bDateParts[2],
+          bDateParts[1] - 1,
+          bDateParts[0],
+          bDateParts[3],
+          bDateParts[4],
+          bDateParts[5]
+        );
+        return bDate - aDate;
+      });
     } else if (criteriaToSortBy === "importance") {
       todos.sort((a, b) => b.importance - a.importance);
     } else if (criteriaToSortBy === "completed") {
@@ -162,10 +180,20 @@ export class TodoController {
         console.error("No todos found");
         return;
       }
-
       // sort todos by creationDate ascending
-      // eslint-disable-next-line no-undef
-      todos.sort((a, b) => dayjs(b.creationDate).diff(dayjs(a.creationDate)));
+      todos.sort((a, b) => {
+        const dateA = new Date(
+          `${a.creationDate.split(" ")[0].split("-").reverse().join("-")}T${
+            a.creationDate.split(" ")[1]
+          }`
+        );
+        const dateB = new Date(
+          `${b.creationDate.split(" ")[0].split("-").reverse().join("-")}T${
+            b.creationDate.split(" ")[1]
+          }`
+        );
+        return dateB - dateA;
+      });
       if (this.todoTemplateCompiled) {
         todos.forEach((todo) => {
           const todoTemplate = this.todoTemplateCompiled(todo);
@@ -230,6 +258,20 @@ export class TodoController {
 
   handleTodoFormSubmit(event) {
     event.preventDefault();
+
+    const now = new Date();
+    const createdAt = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    const creationDate = `${now.getDate()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${now.getFullYear()} ${String(now.getHours()).padStart(
+      2,
+      "0"
+    )}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+      now.getSeconds()
+    ).padStart(2, "0")}`;
+
     const todo = {
       // eslint-disable-next-line no-undef
       title: title.value,
@@ -237,20 +279,17 @@ export class TodoController {
       description: description.value,
       // eslint-disable-next-line no-undef
       dueDate: dueDate.value,
-      // eslint-disable-next-line no-undef
-      daysLeft: dayjs(dueDate.value).diff(dayjs(), "day"),
-      creationDate: this.createdAt
-        ? this.createdAt
-        : // eslint-disable-next-line no-undef
-          dayjs().format("DD-MM-YYYY HH:mm:ss"),
+      daysLeft: Math.floor(
+        // eslint-disable-next-line no-undef
+        (new Date(dueDate.value) - now) / (1000 * 60 * 60 * 24)
+      ),
+      creationDate: this.createdAt ? this.createdAt : creationDate,
       // eslint-disable-next-line no-undef
       importance: importance.value,
       completed: false,
-      // eslint-disable-next-line no-undef
-      createdAt: dayjs().format("YYYY-MM-DD"),
+      createdAt,
     };
 
-    // If a todo is being edited, update it. Otherwise, add a new todo.
     if (this.todoToEdit) {
       // eslint-disable-next-line no-underscore-dangle
       todo._id = this.todoToEdit._id;
@@ -263,7 +302,6 @@ export class TodoController {
       this.addTodo(todo);
     }
 
-    // Reset the form.
     // eslint-disable-next-line no-undef
     title.value = "";
     // eslint-disable-next-line no-undef
@@ -273,10 +311,7 @@ export class TodoController {
     // eslint-disable-next-line no-undef
     importance.value = "";
 
-    // Reset the todoToEdit.
     this.todoToEdit = null;
-
-    // Close the dialog.
     document.getElementById("todoDialog").close();
   }
 }
