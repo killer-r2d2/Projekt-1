@@ -8,6 +8,22 @@ export class TodoController {
     const todoTemplateElement = document.querySelector("#todo-list-template");
     if (todoTemplateElement) {
       // eslint-disable-next-line no-undef
+      Handlebars.registerHelper("formatToDateAndTime", (dateTime) => {
+        const dateObject = new Date(dateTime);
+        return `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
+      });
+
+      // eslint-disable-next-line no-undef
+      Handlebars.registerHelper("formatToDate", (dueDate) => {
+        const dateObject = new Date(dueDate);
+        return dateObject.toLocaleDateString("de-DE", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        });
+      });
+
+      // eslint-disable-next-line no-undef
       this.todoTemplateCompiled = Handlebars.compile(
         todoTemplateElement.innerHTML
       );
@@ -54,8 +70,6 @@ export class TodoController {
       });
     }
 
-    // when filter button is clicked, first remove all filterButtonActive classes from buttons
-    // then add filterButtonActive class to the clicked button
     const filterButtons = document.querySelectorAll(".filterButton");
     filterButtons.forEach((filterButton) => {
       filterButton.addEventListener("click", (event) => {
@@ -90,29 +104,9 @@ export class TodoController {
     if (criteriaToSortBy === "name") {
       todos.sort((a, b) => a.title.localeCompare(b.title));
     } else if (criteriaToSortBy === "dueDate") {
-      todos.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+      todos.sort((a, b) => a.dueDate - b.dueDate);
     } else if (criteriaToSortBy === "creationDate") {
-      todos.sort((a, b) => {
-        const aDateParts = a.creationDate.split(/[- :]/);
-        const bDateParts = b.creationDate.split(/[- :]/);
-        const aDate = new Date(
-          aDateParts[2],
-          aDateParts[1] - 1,
-          aDateParts[0],
-          aDateParts[3],
-          aDateParts[4],
-          aDateParts[5]
-        );
-        const bDate = new Date(
-          bDateParts[2],
-          bDateParts[1] - 1,
-          bDateParts[0],
-          bDateParts[3],
-          bDateParts[4],
-          bDateParts[5]
-        );
-        return bDate - aDate;
-      });
+      todos.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
     } else if (criteriaToSortBy === "importance") {
       todos.sort((a, b) => b.importance - a.importance);
     } else if (criteriaToSortBy === "completed") {
@@ -180,20 +174,8 @@ export class TodoController {
         console.error("No todos found");
         return;
       }
-      // sort todos by creationDate ascending
-      todos.sort((a, b) => {
-        const dateA = new Date(
-          `${a.creationDate.split(" ")[0].split("-").reverse().join("-")}T${
-            a.creationDate.split(" ")[1]
-          }`
-        );
-        const dateB = new Date(
-          `${b.creationDate.split(" ")[0].split("-").reverse().join("-")}T${
-            b.creationDate.split(" ")[1]
-          }`
-        );
-        return dateB - dateA;
-      });
+
+      todos.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
       if (this.todoTemplateCompiled) {
         todos.forEach((todo) => {
           const todoTemplate = this.todoTemplateCompiled(todo);
@@ -247,7 +229,8 @@ export class TodoController {
 
       titleInput.value = this.todoToEdit.title;
       descriptionInput.value = this.todoToEdit.description;
-      dueDateInput.value = this.todoToEdit.dueDate;
+      const dueDate = new Date(this.todoToEdit.dueDate);
+      dueDateInput.value = dueDate.toISOString().substring(0, 10);
       importanceInput.value = this.todoToEdit.importance;
 
       this.openDialog();
@@ -260,34 +243,22 @@ export class TodoController {
     event.preventDefault();
 
     const now = new Date();
-    const createdAt = `${now.getFullYear()}-${String(
-      now.getMonth() + 1
-    ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    const creationDate = `${now.getDate()}-${String(
-      now.getMonth() + 1
-    ).padStart(2, "0")}-${now.getFullYear()} ${String(now.getHours()).padStart(
-      2,
-      "0"
-    )}:${String(now.getMinutes()).padStart(2, "0")}:${String(
-      now.getSeconds()
-    ).padStart(2, "0")}`;
-
+    // eslint-disable-next-line no-undef
     const todo = {
       // eslint-disable-next-line no-undef
       title: title.value,
       // eslint-disable-next-line no-undef
       description: description.value,
       // eslint-disable-next-line no-undef
-      dueDate: dueDate.value,
+      dueDate: new Date(dueDate.value), // create a Date object
       daysLeft: Math.floor(
         // eslint-disable-next-line no-undef
         (new Date(dueDate.value) - now) / (1000 * 60 * 60 * 24)
       ),
-      creationDate: this.createdAt ? this.createdAt : creationDate,
+      creationDate: now, // directly store the current date
       // eslint-disable-next-line no-undef
       importance: importance.value,
       completed: false,
-      createdAt,
     };
 
     if (this.todoToEdit) {

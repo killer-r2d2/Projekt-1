@@ -16,8 +16,8 @@ const get = (filter = {}, sort = {}) =>
         const sortedTodos = todos.sort((a, b) => {
           // eslint-disable-next-line no-restricted-syntax, guard-for-in
           for (const key in sort) {
-            if (a[key] < b[key]) return sort[key]; // returns -1 or 1 depending on sort[key]
-            if (a[key] > b[key]) return -sort[key]; // returns 1 or -1 depending on sort[key]
+            if (a[key] < b[key]) return sort[key];
+            if (a[key] > b[key]) return -sort[key];
           }
           return 0;
         });
